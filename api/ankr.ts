@@ -1,5 +1,6 @@
 import { ThirdwebSDK } from "@thirdweb-dev/sdk";
 import { ethers } from "ethers";
+import qs from 'qs';
 
 const rpcUrl = "https://rpc.ankr.com/eth_rinkeby";
 const testWallet = "0x86283791B4e9BF64AA71b921A302559b48911c61";
@@ -42,4 +43,18 @@ const getRecentTransactions = async (provider: any, address: string) => {
   return history;
 }
 
-export default testRPC;
+/* Return quote for a given token pair
+https://www.0x.org/docs/guides/swap-tokens-with-0x-api#fetching-a-swap-quote
+Note: Doesn't support Rinkeby rip */
+const oxSwap = async () => {
+  const params = {
+    buyToken: 'WETH',
+    sellToken: 'DAI',
+    buyAmount: '1000000000000000000000',
+  }
+  const response = await fetch(
+    `https://api.0x.org/swap/v1/quote?${qs.stringify(params)}`
+  );
+  console.log(await response.json());
+}
+export { testRPC, oxSwap };

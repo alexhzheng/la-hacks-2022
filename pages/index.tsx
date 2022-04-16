@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import Navbar from "../components/Navbar";
-import testRPC from "../api/ankr";
+import { testRPC, oxSwap } from "../api/ankr";
 
 const Home: NextPage = () => {
   return (
@@ -30,12 +30,12 @@ const Home: NextPage = () => {
               Get Started Now
             </button>
             <button
-            className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-4 py-2 rounded-full hover:scale-95 transition duration-150 ease-in-out"
-            type="button"
-            onClick={testRPC}
-          >
-            Test Ethers
-          </button>
+              className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-4 py-2 rounded-full hover:scale-95 transition duration-150 ease-in-out"
+              type="button"
+              onClick={oxSwap}
+            >
+              Test Ethers
+            </button>
           </div>
         </div>
       </main>
