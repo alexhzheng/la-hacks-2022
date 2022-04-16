@@ -10,15 +10,13 @@ export async function sendEmail() {
     text: "and easy to do anywhere, even with Node.js",
     html: "<strong>and easy to do anywhere, even with Node.js</strong>",
   };
-  sgMail
-    .send(msg)
-    .then((data: any) => {
-      console.log("Email sent");
-      console.log(data);
-      return data;
-    })
-    .catch((error: any) => {
-      console.error(error);
-      return { success: false };
-    });
+
+  try {
+    const response = await sgMail.send(msg);
+    console.log("Response data: ", response);
+    return response;
+  } catch (error) {
+    console.error(error);
+    return undefined;
+  }
 }
