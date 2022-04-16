@@ -5,11 +5,11 @@ import Navbar from "../components/Navbar";
 
 const Home: NextPage = () => {
   return (
-    <div className="relative">
-      <div className="z-50 relative top-0">
+    <div className="">
+      <div className=" fixed w-full">
         <Navbar />
       </div>
-      <main className="flex min-h-screen justify-center items-center text-center overflow-hidden relative">
+      <main className="flex h-full min-h-screen justify-center items-center text-center overflow-hidden relative">
         <div>
           <h1 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-tr from-sky-600 to-white">
             Welcome to Split-A-Bill!
