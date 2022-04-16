@@ -2,7 +2,8 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import Navbar from "../components/Navbar";
-import { testRPC, oxSwap } from "../api/ankr";
+import { testRPC, oxSwap } from "../util/ankr";
+import { generateQR } from "../util/qr";
 
 const Home: NextPage = () => {
   return (
@@ -32,7 +33,7 @@ const Home: NextPage = () => {
             <button
               className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-4 py-2 rounded-full hover:scale-95 transition duration-150 ease-in-out"
               type="button"
-              onClick={oxSwap}
+              onClick={() => console.log(generateQR("WALLET_ADDRESS", "1e16"))}
             >
               Test Ethers
             </button>
