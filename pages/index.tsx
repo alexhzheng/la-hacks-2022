@@ -14,6 +14,7 @@ import {
   useCoinbaseWallet,
 } from "@thirdweb-dev/react";
 import { IoClose } from "react-icons/io5";
+import Slideshow from "../components/slideshow";
 
 import { Dialog, Transition } from "@headlessui/react";
 import { calcPaymentAmts } from "../util/splitCalc";
@@ -22,8 +23,11 @@ import { mint } from "../util/nft/mint";
 const Home: NextPage = () => {
   const address = useAddress();
 
+
+
   const sendSMS = async (body) => {
     await axios.post("api/sendSMS", body);
+
   };
 
   let [isOpen, setIsOpen] = useState(false);
@@ -57,12 +61,14 @@ const Home: NextPage = () => {
 
   return (
     <div className="relative">
-      <div className="z-50 bg-stone-100 fixed w-full ">
+      <div className="z-10 sticky top-0 bg-stone-100  w-full ">
         <Navbar />
       </div>
-      <main className="flex h-full min-h-screen justify-center items-center text-center overflow-hidden relative">
-        <div className="">
-          <h1 className="text-6xl md:text-9xl text-center font-bold text-transparent bg-clip-text bg-gradient-to-tr from-sky-600 to-white mb-2">
+
+      <main className="flex flex-col min-h-screen justify-center items-center text-center relative">
+        <div className="my-48">
+          <h1 className="text-9xl text-center font-bold text-transparent bg-clip-text bg-gradient-to-tr from-sky-600 to-white mb-2">
+
             Welcome to
           </h1>
           <h1 className="text-5xl md:text-7xl text-center font-bold text-transparent bg-clip-text bg-gradient-to-tr from-sky-600 to-white">
@@ -80,17 +86,15 @@ const Home: NextPage = () => {
               >
                 Request Payment Now
               </button>
-              {/* <button
-                className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-4 py-2 rounded-full hover:scale-95 transition duration-150 ease-in-out"
-                type="button"
-                onClick={() => mint()}
-              >
-                Mint
-              </button> */}
             </div>
           </div>
         </div>
-
+        <div className="mt-12 w-full bg-blue-50 h-full">
+          <div className="font-barlow font-medium tracking-wide text-6xl mb-8 pt-8">
+            What Do We Do?
+          </div>
+          <Slideshow />
+        </div>
         <Dialog
           as="div"
           className="fixed inset-0 z-50 overflow-y-auto"
