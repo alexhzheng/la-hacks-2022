@@ -14,11 +14,11 @@ import {
   useCoinbaseWallet,
 } from "@thirdweb-dev/react";
 import { IoClose } from "react-icons/io5";
-import Slideshow from "../components/slideshow";
 
 import { Dialog, Transition } from "@headlessui/react";
 import { calcPaymentAmts } from "../util/splitCalc";
 import { mint } from "../util/nft/mint";
+import Slideshow from "../components/Slideshow";
 
 const Home: NextPage = () => {
   const address = useAddress();
@@ -57,20 +57,20 @@ const Home: NextPage = () => {
   }
 
   return (
-    <div className="relative">
-      <div className="z-10 sticky top-0 bg-stone-100  w-full ">
+    <div className="relative overflow-hidden">
+      <div className="z-50 fixed w-full top-0  sm:w-full ">
         <Navbar />
       </div>
 
       <main className="flex flex-col min-h-screen justify-center items-center text-center relative">
         <div className="my-48">
-          <h1 className="text-9xl text-center font-bold text-transparent bg-clip-text bg-gradient-to-tr from-sky-600 to-white mb-2">
-            Welcome to
+          <h1 className=" text-6xl pb-6 md:text-9xl  text-center font-bold text-transparent bg-clip-text bg-gradient-to-tr from-sky-600 to-white mb-2">
+            Welcome To
           </h1>
-          <h1 className="text-5xl md:text-7xl text-center font-bold text-transparent bg-clip-text bg-gradient-to-tr from-sky-600 to-white">
+          <h1 className="text-4xl pb-8 uppercase md:text-7xl text-center font-bold text-transparent bg-clip-text bg-gradient-to-tr from-sky-600 to-white">
             Splitty
           </h1>
-          <h3 className="px-4 py-4 text-2xl font-barlow ">
+          <h3 className="px-4 py-4  text-3xl md:text-4xl font-barlow ">
             We help automate calculate bill splitting for crypto enthusiasts!
           </h3>
           <div className="flex flex-col gap-x-4 justify-center items-center">
@@ -78,7 +78,13 @@ const Home: NextPage = () => {
               <button
                 className="bg-gradient-to-r from-sky-500 to-purple-300 px-4 py-2 rounded-full hover:scale-95 transition duration-150 ease-in-out"
                 type="button"
-                onClick={() => openModal()}
+                onClick={() => {
+                  if (!address) {
+                    alert("Must be signed into Metamask");
+                    return;
+                  }
+                  openModal();
+                }}
               >
                 Request Payment Now
               </button>

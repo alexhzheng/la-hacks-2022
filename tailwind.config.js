@@ -11,6 +11,16 @@ module.exports = {
       width: {
         100: "35rem",
       },
+      screens: {
+        maxlg: { max: "1023px" },
+        // => @media (max-width: 1023px) { ... }
+
+        maxmd: { max: "767px" },
+        // => @media (max-width: 767px) { ... }
+
+        maxsm: { max: "639px" },
+        // => @media (max-width: 639px) { ... }
+      },
     },
   },
   plugins: [],
