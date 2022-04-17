@@ -148,7 +148,7 @@ const Home: NextPage = () => {
               &#8203;
             </span>
 
-            <div className="font-barlow inline-block w-full max-w-lg p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-stone-200 shadow-xl rounded-2xl ">
+            <div className="font-barlow inline-block w-full max-w-xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-stone-200 shadow-xl rounded-2xl ">
               <div
                 className="flex justify-end cursor-pointer"
                 onClick={closeModal}
@@ -176,9 +176,9 @@ const Home: NextPage = () => {
                   onChange={(e) => setTotal(e.target.value)}
                 />
               </div>
-              <div className="flex justify-evenly">
-                <div>Phone</div>
-                <div>Percentage</div>
+              <div className="flex">
+                <div className="pr-36">Phone</div>
+                <div>Ratio</div>
               </div>
               {inputList.map((x, i) => {
                 return (
