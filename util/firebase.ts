@@ -25,8 +25,8 @@ const app = initializeApp(firebaseConfig);
 // Initialize Cloud Firestore and get a reference to the service
 const firestore = getFirestore(app);
 
-const addBill = async (address: string, bill: { address: string, amount: number }) => {
-  const docRef = await addDoc(collection(firestore, address), bill);
+const addBill = async (address: string, bill: { phoneNumber: string, usdAmount: number, amount: number }[]) => {
+  const docRef = await addDoc(collection(firestore, address), {splitList: bill});
   console.log("Document written with ID: ", docRef.id);
 }
 
@@ -40,6 +40,7 @@ const getBills = async (address: string) => {
   return bills;
 }
 
+export { addBill, getBills };
 // const docRef = doc(firestore, `bills/${address}`);
 //   const docSnap = await getDoc(docRef);
 //   if (docSnap.exists()) {

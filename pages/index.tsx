@@ -23,7 +23,7 @@ import Slideshow from "../components/Slideshow";
 const Home: NextPage = () => {
   const address = useAddress();
 
-  const sendSMS = async (body) => {
+  const sendSMS = async (body: any) => {
     await axios.post("api/sendSMS", body);
   };
 
@@ -218,6 +218,7 @@ const Home: NextPage = () => {
                   x[0].address = address;
                   x[0].description = description;
                   sendSMS(x);
+                  await addBill(address || "none", x);
                   closeModal();
                 }}
                 className=" flex text-2xl text-center justify-center items-center mx-auto w-1/2 mt-4 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-4 py-2 rounded-full hover:scale-95 transition duration-150 ease-in-out"
