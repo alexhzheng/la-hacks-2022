@@ -14,7 +14,7 @@ import {
   useCoinbaseWallet,
 } from "@thirdweb-dev/react";
 import { IoClose } from "react-icons/io5";
-import Slideshow from "../components/slideshow";
+import Slideshow from "../components/Slideshow";
 
 import { Dialog, Transition } from "@headlessui/react";
 import { calcPaymentAmts } from "../util/splitCalc";

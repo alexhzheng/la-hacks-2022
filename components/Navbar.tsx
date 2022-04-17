@@ -14,6 +14,7 @@ import { FaCopy } from "react-icons/fa";
 import toast from "react-hot-toast";
 
 import { useRouter } from "next/router";
+import NavbarSmall from "./NavbarSmall";
 
 const Navbar = () => {
   const address = useAddress();
@@ -34,14 +35,9 @@ const Navbar = () => {
             Splitty
           </button>
         </h1>
-        <div
-          className="flex items-center self-end cursor-pointer"
-          onClick={() => router.push("/history/")}
-        >
-          History
-        </div>
       </div>
-      <div className="">
+      <NavbarSmall />
+      <div className="maxsm:hidden">
         {address ? (
           <div className="flex flex-col items-end">
             <div
