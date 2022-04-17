@@ -19,10 +19,10 @@ export default async function handler(
 ) {
   const sender = req.body.From;
   const message = req.body.Body;
+  sendConfirmationText(sender, `Your payment is being confirmed!`);
   const provider = await getProvider();
   const transaction = await checkTransaction(provider, message, sender);
   if (transaction) {
-    sendConfirmationText(sender, `Your payment is being confirmed!`);
     await addPayment(
       {
         address: transaction.receiver || "",
