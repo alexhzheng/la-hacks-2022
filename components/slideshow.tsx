@@ -9,23 +9,61 @@ import Image from "next/Image";
 
 const slideshow = () => {
   return (
-    <Carousel>
-      <div>
-        <Image src={step1} alt="step1" />
-        <p className="">Enter and submit transaction details</p>
-      </div>
-      <div>
-        <Image src={step2} alt="step2" />
-        <p className="">Wait for friends to pay back</p>
-      </div>
-      <div>
-        <Image src={step3} alt="step3" />
-        <p className="">
-          We’ll notify you once everyone pays back and mint an NFT of the
-          receipt
-        </p>
-      </div>
-    </Carousel>
+    <div className=" bg-stone-300 rounded-xl shadow-xl  max-w-5xl mb-20 mx-auto flex justify-center items-center">
+      {" "}
+      <Carousel
+        infiniteLoop={true}
+        autoPlay={true}
+        showArrows={false}
+        showIndicators={false}
+      >
+        <div className="mt-10   justify-center items-center">
+          <div className="">
+            <Image
+              className="rounded-xl"
+              height={500}
+              width={600}
+              src={step1}
+              alt="step1"
+            />
+          </div>
+          <div className=" text-3xl mb-8 font-barlow">
+            <p className="">Enter and submit transaction details</p>
+          </div>
+        </div>
+        <div className="mt-10   justify-center items-center">
+          <div className="">
+            <Image
+              className="rounded-xl"
+              height={500}
+              width={600}
+              src={step2}
+              alt="step2"
+            />
+          </div>
+          <div className=" text-3xl mb-8 font-barlow">
+            <p className="">Wait for friends to pay back</p>
+          </div>
+        </div>
+        <div className="mt-10   justify-center items-center">
+          <div className="">
+            <Image
+              className="rounded-xl"
+              height={500}
+              width={600}
+              src={step3}
+              alt="step3"
+            />
+          </div>
+          <div className=" text-3xl mb-8 font-barlow">
+            <p className="">
+              We’ll notify you once everyone pays back and mint an NFT of the
+              receipt
+            </p>
+          </div>
+        </div>
+      </Carousel>
+    </div>
   );
 };
 

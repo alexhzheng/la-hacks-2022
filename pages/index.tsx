@@ -157,7 +157,7 @@ const Home: NextPage = () => {
           </div>
         </div>
         <div className="mt-12 w-full bg-blue-50 h-full">
-          <div className="font-barlow font-medium tracking-wide text-6xl mb-8">
+          <div className="font-barlow font-medium tracking-wide text-6xl mb-8 pt-8">
             What Do We Do?
           </div>
           <Slideshow />
