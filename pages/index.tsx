@@ -76,7 +76,7 @@ const Home: NextPage = () => {
           <div className="flex flex-col gap-x-4 justify-center items-center">
             <div className="flex gap-x-4">
               <button
-                className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-4 py-2 rounded-full hover:scale-95 transition duration-150 ease-in-out"
+                className="bg-gradient-to-r from-sky-500 to-purple-300 px-4 py-2 rounded-full hover:scale-95 transition duration-150 ease-in-out"
                 type="button"
                 onClick={() => openModal()}
               >
