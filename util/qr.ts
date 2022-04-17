@@ -8,10 +8,10 @@ import QRCode from "qrcode";
  */
 const generateQR = async (addr: string, amount: string) => {
   const amt = amount ?? "1e16";
-  const metamaskURL = `https://metamask.app.link/send/${addr}?value=${amt}`;
+  const metamaskURL = `https://metamask.app.link/send/${addr}@4?value=${amt}`;
   try {
-    const x = await QRCode.toDataURL(metamaskURL);
-    return x;
+    const qr = await QRCode.toDataURL(metamaskURL);
+    return { qr, metamaskURL };
   } catch (err) {
     console.error(err);
   }

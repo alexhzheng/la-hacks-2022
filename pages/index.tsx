@@ -5,6 +5,7 @@ import Image from "next/image";
 import Navbar from "../components/Navbar";
 import { testRPC, oxSwap } from "../util/ankr";
 import { generateQR } from "../util/qr";
+import axios from "axios";
 import {
   useAddress,
   useDisconnect,
@@ -18,8 +19,8 @@ const Home: NextPage = () => {
   const address = useAddress();
   const handleClick = async () => {
     setClick(!click);
-    const x = generateQR(address, "1e16").then((data) => setUri(data));
-    console.log(uri);
+    const x = await generateQR(address, "1e16");
+    setUri(x.qr);
   };
   const [Clicked, setClicked] = useState(true);
 
@@ -30,6 +31,36 @@ const Home: NextPage = () => {
   function openModal() {
     setClicked(true);
   }
+
+  const sendEmail = async () => {
+    const response = await axios.post("api/sendEmail", {
+      body: [
+        {
+          address: address,
+        },
+        {
+          name: "alex",
+          email: "adsfadsf@gmail.com",
+        },
+        {
+          name: "a",
+          email: "alex@vo2.fans",
+        },
+        {
+          name: "b",
+          email: "alexhz@seas.upenn.edu",
+        },
+        {
+          name: "c",
+          email: "alex.h.zheng@gmail.com",
+        },
+        {
+          name: "d",
+          email: "justinkim707@gmail.com",
+        },
+      ],
+    });
+  };
 
   return (
     <div className="">
@@ -53,6 +84,9 @@ const Home: NextPage = () => {
               <button
                 className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-4 py-2 rounded-full hover:scale-95 transition duration-150 ease-in-out"
                 type="button"
+                onClick={() => {
+                  sendEmail();
+                }}
               >
                 Get Started Now
               </button>
@@ -69,7 +103,7 @@ const Home: NextPage = () => {
 
             {click && uri !== "" && (
               <div className="h-64 w-64 relative">
-                <Image src={uri} layout="fill" alt="qrcode" />
+                <img src={uri} alt="qrcode" />
               </div>
             )}
           </div>
