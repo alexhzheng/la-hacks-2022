@@ -19,59 +19,10 @@ import { Dialog, Transition } from "@headlessui/react";
 import { calcPaymentAmts } from "../util/splitCalc";
 
 const Home: NextPage = () => {
-  const [click, setClick] = useState(false);
-  const [uri, setUri] = useState("");
   const address = useAddress();
 
-  const handleClick = async () => {
-    setClick(!click);
-    if (!address) {
-      console.log("wallet not connected");
-      return;
-    }
-    const x = await generateQR(address, "1e16");
-    if (x) setUri(x.qr);
-  };
-
-  const sendSMS = async () => {
-    await axios.post("api/sendSMS", {
-      address: address,
-      to: "4699316958", //"5105856168", // Brandon: 4699316958
-      amount: "1e16",
-    });
-  };
-  const sendEmail = async () => {
-    await axios.post("api/sendEmail", {
-      body: [
-        {
-          address: address,
-        },
-        {
-          name: "alex",
-          email: "adsfadsf@gmail.com",
-        },
-        {
-          name: "a",
-          email: "alex@vo2.fans",
-        },
-        {
-          name: "b",
-          email: "alexhz@seas.upenn.edu",
-        },
-        {
-          name: "c",
-          email: "alex.h.zheng@gmail.com",
-        },
-        {
-          name: "d",
-          email: "justinkim707@gmail.com",
-        },
-        {
-          name: "e",
-          email: "brandonbigbrother@gmail.com",
-        },
-      ],
-    });
+  const sendSMS = async (body) => {
+    await axios.post("api/sendSMS", body);
   };
 
   let [isOpen, setIsOpen] = useState(false);
@@ -110,7 +61,7 @@ const Home: NextPage = () => {
       <main className="flex h-full min-h-screen justify-center items-center text-center overflow-hidden relative">
         <div className="">
           <h1 className="text-9xl text-center font-bold text-transparent bg-clip-text bg-gradient-to-tr from-sky-600 to-white mb-2">
-            Welcome to
+            Welcome t0
           </h1>
           <h1 className="text-7xl text-center font-bold text-transparent bg-clip-text bg-gradient-to-tr from-sky-600 to-white">
             Split-A-Bill!
@@ -129,34 +80,16 @@ const Home: NextPage = () => {
                 Get Started Now
               </button>
               <button
-                className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-4 py-2 rounded-full hover:scale-95 transition duration-150 ease-in-out"
-                type="button"
                 onClick={() => {
-                  handleClick();
+                  sendSMS();
                 }}
+                className="flex text-2xl text-center justify-center items-center mx-auto w-1/2 mt-4 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-4 py-2 rounded-full hover:scale-95 transition duration-150 ease-in-out"
               >
-                Test Ethers
+                <a className="font-medium tracking-widest uppercase">
+                  Send SMS
+                </a>
               </button>
             </div>
-            <button
-              className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-4 py-2 rounded-full hover:scale-95 transition duration-150 ease-in-out"
-              type="button"
-              onClick={() => {
-                sendSMS();
-              }}
-            >
-              Send SMS
-            </button>
-            {click && uri !== "" && (
-              <div className="h-64 w-64 relative">
-                <Image
-                  src={uri}
-                  alt="qrcode"
-                  layout="fill"
-                  objectFit="contain"
-                />
-              </div>
-            )}
           </div>
         </div>
 
@@ -251,21 +184,26 @@ const Home: NextPage = () => {
                 );
               })}
               <button
-                onClick={() => {
+                onClick={async () => {
                   if (total === 0) {
                     alert("Enter total");
                     return;
                   }
                   let totalPercent = 0;
-                  inputList.map((input, x) => (totalPercent += input.ratio));
+                  inputList.map(
+                    (input, x) => (totalPercent += parseInt(input.ratio))
+                  );
                   console.log(totalPercent);
                   if (totalPercent !== 100) {
                     alert("Percents must add up to 100");
                     return;
                   }
-                  const amts = calcPaymentAmts(total, inputList);
-                  console.log(amts);
+
+                  const amts = await calcPaymentAmts(total, inputList);
                   alert(amts);
+                  const x = JSON.parse(amts);
+                  x[0].address = address;
+                  sendSMS(x);
                 }}
                 className=" flex text-2xl text-center justify-center items-center mx-auto w-1/2 mt-4 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-4 py-2 rounded-full hover:scale-95 transition duration-150 ease-in-out"
               >
