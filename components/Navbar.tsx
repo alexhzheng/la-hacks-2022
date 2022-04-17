@@ -15,7 +15,6 @@ import toast from "react-hot-toast";
 
 import { useRouter } from "next/router";
 
-
 const Navbar = () => {
   const address = useAddress();
   const connectWithMetamask = useMetamask();
@@ -25,7 +24,7 @@ const Navbar = () => {
   const router = useRouter();
   return (
     <nav className="h-20 shadow-lg flex items-center justify-between max-w-full px-2 md:px-24">
-      <div className="flex flex-row gap-x-7">
+      <div className="flex flex-row items-center gap-x-7">
         <h1 className="text-4xl font-barlow font-medium tracking-wide">
           <button
             onClick={() => {
@@ -35,12 +34,12 @@ const Navbar = () => {
             Splitty
           </button>
         </h1>
-        <button
-          className="flex items-center self-end"
+        <div
+          className="flex items-center self-end cursor-pointer"
           onClick={() => router.push("/history/")}
         >
           History
-        </button>
+        </div>
       </div>
       <div className="">
         {address ? (

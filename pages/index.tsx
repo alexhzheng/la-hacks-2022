@@ -23,11 +23,8 @@ import { mint } from "../util/nft/mint";
 const Home: NextPage = () => {
   const address = useAddress();
 
-
-
   const sendSMS = async (body) => {
     await axios.post("api/sendSMS", body);
-
   };
 
   let [isOpen, setIsOpen] = useState(false);
@@ -68,7 +65,6 @@ const Home: NextPage = () => {
       <main className="flex flex-col min-h-screen justify-center items-center text-center relative">
         <div className="my-48">
           <h1 className="text-9xl text-center font-bold text-transparent bg-clip-text bg-gradient-to-tr from-sky-600 to-white mb-2">
-
             Welcome to
           </h1>
           <h1 className="text-5xl md:text-7xl text-center font-bold text-transparent bg-clip-text bg-gradient-to-tr from-sky-600 to-white">
@@ -80,7 +76,7 @@ const Home: NextPage = () => {
           <div className="flex flex-col gap-x-4 justify-center items-center">
             <div className="flex gap-x-4">
               <button
-                className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-4 py-2 rounded-full hover:scale-95 transition duration-150 ease-in-out"
+                className="bg-gradient-to-r from-sky-500 to-purple-300 px-4 py-2 rounded-full hover:scale-95 transition duration-150 ease-in-out"
                 type="button"
                 onClick={() => openModal()}
               >
