@@ -149,34 +149,44 @@ const Home: NextPage = () => {
                   onChange={(e) => setDescription(e.target.value)}
                 />
               </div>
-              <div className="flex">
+              {/* <div className="flex">
                 <div className="pr-36">Phone</div>
                 <div>Ratio</div>
-              </div>
+              </div> */}
               {inputList.map((x, i) => {
                 return (
-                  <div className="flex gap-x-2 ml-2 my-2" key={i}>
-                    <input
-                      className="rounded border-2 border-black p-1"
-                      type="text"
-                      name="phoneNumber"
-                      placeholder="Add a phone number"
-                      value={x.phoneNumber}
-                      onChange={(e) => handleInputChange(e, i)}
-                    />
+                  <div
+                    className="flex flex-col md:flex md:flex-row gap-x-2 ml-2 my-2"
+                    key={i}
+                  >
+                    <div className="flex flex-col">
+                      <div>Phone</div>
+                      <input
+                        className="rounded border-2 border-black p-1"
+                        type="text"
+                        name="phoneNumber"
+                        placeholder="Add a phone number"
+                        value={x.phoneNumber}
+                        onChange={(e) => handleInputChange(e, i)}
+                      />
+                    </div>
+                    <div className="flex flex-col">
+                      {" "}
+                      <div>Ratio</div>
+                      <input
+                        className="rounded border-2 border-black p-1"
+                        type="number"
+                        name="ratio"
+                        placeholder="Enter Whole Number Percent"
+                        value={x.ratio}
+                        onChange={(e) => handleInputChange(e, i)}
+                      />
+                    </div>
 
-                    <input
-                      className="rounded border-2 border-black p-1"
-                      type="number"
-                      name="ratio"
-                      placeholder="Enter Whole Number Percent"
-                      value={x.ratio}
-                      onChange={(e) => handleInputChange(e, i)}
-                    />
                     {inputList.length - 1 === i && (
                       <button
                         type="submit"
-                        className="flex flex-grow justify-center items-center bg-blue-300 rounded-xl"
+                        className=" my-2 w-1/2 mx-auto md:flex md:flex-grow md:mt-6 justify-center items-center bg-blue-300 rounded-xl"
                         onClick={handleAddClick}
                       >
                         {" "}
@@ -186,7 +196,7 @@ const Home: NextPage = () => {
                     {inputList.length !== 1 && (
                       <button
                         type="submit"
-                        className="px-4 bg-red-300 rounded-xl flex-grow justify-center items-center "
+                        className=" w-1/2 mx-auto px-4 my-2 bg-red-300 rounded-xl  md:flex md:mt-6 md:flex-grow justify-center items-center "
                         onClick={() => handleRemoveClick(i)}
                       >
                         {" "}
