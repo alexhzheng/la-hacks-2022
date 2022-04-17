@@ -8,6 +8,9 @@ module.exports = {
       fontFamily: {
         barlow: ["Barlow Condensed", "sans-serif"],
       },
+      width: {
+        100: "35rem",
+      },
     },
   },
   plugins: [],

@@ -13,8 +13,10 @@ import {
   useWalletConnect,
   useCoinbaseWallet,
 } from "@thirdweb-dev/react";
+import { IoClose } from "react-icons/io5";
 
 import { Dialog, Transition } from "@headlessui/react";
+import { calcPaymentAmts } from "../util/splitCalc";
 
 const Home: NextPage = () => {
   const [click, setClick] = useState(false);
@@ -75,14 +77,37 @@ const Home: NextPage = () => {
 
   let [isOpen, setIsOpen] = useState(false);
 
-  function closeModal() {
-    setIsOpen(false);
-  }
-
   function openModal() {
     setIsOpen(true);
   }
+  const [formData, setFormData] = useState({
+    total: 0,
+    user1Contact: "",
+    user2Contact: "",
+    user1Ratio: 0,
+    user2Ratio: 0,
+  });
 
+  const [total, setTotal] = useState(0);
+  const [inputList, setInputList] = useState([{ phoneNumber: "", ratio: 0 }]);
+  const handleAddClick = () => {
+    setInputList([...inputList, { phoneNumber: "", ratio: 0 }]);
+  };
+  const handleInputChange = (e, index) => {
+    const { name, value } = e.target;
+    const list = [...inputList];
+    list[index][name] = value;
+    setInputList(list);
+  };
+  const handleRemoveClick = (index) => {
+    const list = [...inputList];
+    list.splice(index, 1);
+    setInputList(list);
+  };
+  function closeModal() {
+    setIsOpen(false);
+    setInputList([{ phoneNumber: "", ratio: 0 }]);
+  }
   return (
     <div className="relative">
       <div className="z-50 bg-stone-100 fixed w-full ">
@@ -151,28 +176,96 @@ const Home: NextPage = () => {
               &#8203;
             </span>
 
-            <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
-              <Dialog.Title
-                as="h3"
-                className="text-lg font-medium leading-6 text-gray-900"
+            <div className="font-barlow inline-block w-full max-w-xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-stone-200 shadow-xl rounded-2xl ">
+              <div
+                className="flex justify-end cursor-pointer"
+                onClick={closeModal}
               >
-                Modal
-              </Dialog.Title>
-              <div className="mt-2">
-                <p className="text-sm text-gray-500 border-t pt-2">
-                  This is a dialog box
-                </p>
+                <div className="p-1 rounded-lg bg-red-300">
+                  <IoClose className="h-6 w-6 " />
+                </div>
               </div>
 
-              <div className="mt-4">
-                <button
-                  type="button"
-                  className="inline-flex justify-center px-4 py-2 text-sm text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 duration-300"
-                  onClick={closeModal}
-                >
-                  Close
-                </button>
+              <Dialog.Title
+                as="h3"
+                className="text-4xl font-barlow font-medium leading-6 text-gray-900 text-center"
+              >
+                Split Your Payments!
+              </Dialog.Title>
+              <div className="my-4 ">
+                <p className="text-2xl font-medium font-barlow text-black text-center pt-2">
+                  Total (in USD)
+                </p>
+                <input
+                  className="rounded border-2 border-black p-1  flex mx-auto"
+                  type="text"
+                  placeholder="0"
+                  value={total}
+                  onChange={(e) => setTotal(parseFloat(e.target.value))}
+                />
               </div>
+              <div className="flex">
+                <div className="pr-36">Phone</div>
+                <div>Ratio</div>
+              </div>
+              {inputList.map((x, i) => {
+                return (
+                  <div className="flex gap-x-4 my-2" key={i}>
+                    <input
+                      className="rounded border-2 border-black p-1"
+                      type="text"
+                      name="phoneNumber"
+                      placeholder="Add a phone number"
+                      value={x.phoneNumber}
+                      onChange={(e) => handleInputChange(e, i)}
+                    />
+                    <input
+                      className="rounded border-2 border-black p-1"
+                      type="number"
+                      name="ratio"
+                      placeholder="1"
+                      value={x.ratio}
+                      onChange={(e) => handleInputChange(e, i)}
+                    />
+                    {inputList.length - 1 === i && (
+                      <button
+                        type="submit"
+                        className="px-4 bg-blue-300 rounded-xl"
+                        onClick={handleAddClick}
+                      >
+                        {" "}
+                        Add
+                      </button>
+                    )}
+                    {inputList.length !== 1 && (
+                      <button
+                        type="submit"
+                        className="px-4 bg-red-300 rounded-xl"
+                        onClick={() => handleRemoveClick(i)}
+                      >
+                        {" "}
+                        Remove
+                      </button>
+                    )}
+                  </div>
+                );
+              })}
+              <button
+                onClick={() => {
+                  const amts = calcPaymentAmts(formData.total, [
+                    formData.user1Ratio,
+                    formData.user2Ratio,
+                  ]);
+                  alert(
+                    `${formData.user1Contact} owes ${amts[0]}, and ${formData.user2Contact} owes ${amts[1]}`
+                  );
+                }}
+                className=" flex text-2xl text-center justify-center items-center mx-auto w-1/2 mt-4 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-4 py-2 rounded-full hover:scale-95 transition duration-150 ease-in-out"
+              >
+                <a className="   font-medium tracking-widest uppercase">
+                  Split
+                </a>
+              </button>
             </div>
           </div>
         </Dialog>
