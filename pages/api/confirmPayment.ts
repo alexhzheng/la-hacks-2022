@@ -17,12 +17,9 @@ export default async function handler(
 ) {
   const sender = req.body.From;
   const message = req.body.Body;
-  // const provider = await getProvider();
-  // checkTransaction(provider, message, sender);
+  const provider = await getProvider();
+  sendConfirmationText(sender, `${sender} ${message} Your transaction is being confirmed!`);
+  checkTransaction(provider, message, sender);
   // console.log("checking!!");
-  // if (message.contains("sent") || message.contains("Sent")) {
-  //   res.status(200).json({});
-  // }
   res.status(200);
-  sendConfirmationText(sender);
 }

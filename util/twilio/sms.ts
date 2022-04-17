@@ -39,13 +39,13 @@ const sendText = async (req: any) => {
   // });
 };
 
-const sendConfirmationText = async (recipient: string) => {
+const sendConfirmationText = async (recipient: string, body: string) => {
   const accountSid = "ACa5ceefdcc9a786513fde8a91e243f44c";
   const authToken = "ea28bd97067cfbbf22d0737590a090e2";
   const client = require("twilio")(accountSid, authToken);
 
   await client.messages.create({
-    body: `Your transaction is being confirmed!`,
+    body: body,
     from: "9034146426",
     to: recipient,
   });
