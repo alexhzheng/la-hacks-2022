@@ -9,6 +9,8 @@ import {
 } from "@thirdweb-dev/react";
 import metaMask from "../public/metamask.svg";
 import image from "next/image";
+import { FaCopy } from "react-icons/fa";
+import toast from "react-hot-toast";
 
 const Navbar = () => {
   const address = useAddress();
@@ -23,12 +25,22 @@ const Navbar = () => {
       </h1>
       <div className="">
         {address ? (
-          <div className="flex flex-col">
-            <p>address: {address}</p>
-
+          <div className="flex flex-col items-end">
+            <div
+              className="flex items-center gap-x-2 cursor-pointer"
+              onClick={() => {
+                navigator.clipboard.writeText(address);
+                toast.success("Copied to clipboard!");
+              }}
+            >
+              <p>
+                address: {address.substr(0, 6)}...{address.substr(-3)}
+              </p>
+              <FaCopy className="text-black" />
+            </div>
             <button
               onClick={disconnectWallet}
-              className="cursor-pointer bg-red-400 px-4 py-2 rounded-3xl hover:scale-95 transition duration-150 ease-in-out"
+              className="cursor-pointer bg-red-400 px-8 py-2 rounded-3xl hover:scale-95 transition duration-150 ease-in-out"
             >
               Disconnect Wallet
             </button>

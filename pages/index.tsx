@@ -110,7 +110,7 @@ const Home: NextPage = () => {
         <Navbar />
       </div>
       <main className="flex flex-col min-h-screen justify-center items-center text-center relative">
-        <div className="">
+        <div className="my-48">
           <h1 className="text-9xl text-center font-bold text-transparent bg-clip-text bg-gradient-to-tr from-sky-600 to-white mb-2">
             Welcome to
           </h1>
@@ -130,30 +130,7 @@ const Home: NextPage = () => {
               >
                 Get Started Now
               </button>
-              <button
-                className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-4 py-2 rounded-full hover:scale-95 transition duration-150 ease-in-out"
-                type="button"
-                onClick={() => {
-                  handleClick();
-                }}
-              >
-                Test Ethers
-              </button>
             </div>
-            <button
-              className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-4 py-2 rounded-full hover:scale-95 transition duration-150 ease-in-out"
-              type="button"
-              onClick={() => {
-                sendSMS();
-              }}
-            >
-              Send SMS
-            </button>
-            {click && uri !== "" && (
-              <div className="h-64 w-64 relative">
-                <img src={uri} alt="qrcode" />
-              </div>
-            )}
           </div>
         </div>
         <div className="mt-12 w-full bg-blue-50 h-full">
