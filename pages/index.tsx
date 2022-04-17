@@ -78,7 +78,13 @@ const Home: NextPage = () => {
               <button
                 className="bg-gradient-to-r from-sky-500 to-purple-300 px-4 py-2 rounded-full hover:scale-95 transition duration-150 ease-in-out"
                 type="button"
-                onClick={() => openModal()}
+                onClick={() => {
+                  if (!address) {
+                    alert("Must be signed into Metamask");
+                    return;
+                  }
+                  openModal();
+                }}
               >
                 Request Payment Now
               </button>

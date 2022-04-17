@@ -7,7 +7,7 @@ import step2 from "../public/gifs/step2.gif";
 import step3 from "../public/gifs/step3.gif";
 import Image from "next/image";
 
-const slideshow = () => {
+const Slideshow = () => {
   return (
     <div className=" sm:bg-stone-300 rounded-xl shadow-xl  max-w-5xl mb-20 mx-auto flex justify-center items-center">
       {" "}
@@ -17,6 +17,7 @@ const slideshow = () => {
         showArrows={false}
         showThumbs={false}
         showIndicators={false}
+        showThumbs={false}
       >
         <div className="mt-10 flex flex-col justify-center items-center">
           <div className="relative h-80 w-80 md:h-[500px] md:w-[600px] ">
@@ -68,4 +69,4 @@ const slideshow = () => {
   );
 };
 
-export default slideshow;
+export default Slideshow;
