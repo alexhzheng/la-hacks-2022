@@ -13,8 +13,10 @@ import {
   useWalletConnect,
   useCoinbaseWallet,
 } from "@thirdweb-dev/react";
+import { IoClose } from "react-icons/io5";
 
 import { Dialog, Transition } from "@headlessui/react";
+import { calcPaymentAmts } from "../util/splitCalc";
 
 const Home: NextPage = () => {
   const [click, setClick] = useState(false);
@@ -66,6 +68,13 @@ const Home: NextPage = () => {
   function openModal() {
     setIsOpen(true);
   }
+  const [formData, setFormData] = useState({
+    total: 0,
+    user1Contact: "",
+    user2Contact: "",
+    user1Ratio: 0,
+    user2Ratio: 0,
+  });
 
   return (
     <div className="relative">
@@ -127,28 +136,104 @@ const Home: NextPage = () => {
               &#8203;
             </span>
 
-            <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
-              <Dialog.Title
-                as="h3"
-                className="text-lg font-medium leading-6 text-gray-900"
+            <div className=" font-barlow inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl ">
+              <div
+                className="flex justify-end cursor-pointer"
+                onClick={closeModal}
               >
-                Modal
-              </Dialog.Title>
-              <div className="mt-2">
-                <p className="text-sm text-gray-500 border-t pt-2">
-                  This is a dialog box
-                </p>
+                <IoClose className="h-6 w-6 " />
               </div>
 
-              <div className="mt-4">
-                <button
-                  type="button"
-                  className="inline-flex justify-center px-4 py-2 text-sm text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 duration-300"
-                  onClick={closeModal}
-                >
-                  Close
-                </button>
+              <Dialog.Title
+                as="h3"
+                className="text-4xl font-barlow font-medium leading-6 text-gray-900 text-center"
+              >
+                Split Your Payments!
+              </Dialog.Title>
+              <div className="my-4 ">
+                <p className="text-2xl font-medium font-barlow text-black text-center pt-2">
+                  Total (in USD)
+                </p>
+                <input
+                  className="rounded border-2 border-black p-1  flex mx-auto"
+                  type="text"
+                  placeholder="0"
+                  value={formData.total}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      total: parseFloat(e.target.value),
+                    })
+                  }
+                />
               </div>
+              <div className="flex w-full gap-x-4 justify-around">
+                <div>Email/phone</div>
+                <div>Ratio</div>
+              </div>
+              <div className="flex gap-x-4 justify-center items-center">
+                <input
+                  className="rounded border-2 border-black p-1"
+                  type="text"
+                  placeholder="bob@gmail.com"
+                  value={formData.user2Contact}
+                  onChange={(e) =>
+                    setFormData({ ...formData, user2Contact: e.target.value })
+                  }
+                />
+                <input
+                  className="rounded border-2 border-black p-1"
+                  type="number"
+                  placeholder="1"
+                  value={formData.user2Ratio}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      user2Ratio: parseFloat(e.target.value),
+                    })
+                  }
+                />
+              </div>
+              <div className=" mt-4 flex gap-x-4 justify-center items-center">
+                <input
+                  className="rounded border-2 border-black p-1"
+                  type="text"
+                  placeholder="bob@gmail.com"
+                  value={formData.user1Contact}
+                  onChange={(e) =>
+                    setFormData({ ...formData, user1Contact: e.target.value })
+                  }
+                />
+                <input
+                  className="rounded border-2 border-black p-1"
+                  type="number"
+                  placeholder="1"
+                  value={formData.user1Ratio}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      user1Ratio: parseFloat(e.target.value),
+                    })
+                  }
+                />
+              </div>
+
+              <button
+                onClick={() => {
+                  const amts = calcPaymentAmts(formData.total, [
+                    formData.user1Ratio,
+                    formData.user2Ratio,
+                  ]);
+                  alert(
+                    `${formData.user1Contact} owes ${amts[0]}, and ${formData.user2Contact} owes ${amts[1]}`
+                  );
+                }}
+                className=" flex text-2xl text-center justify-center items-center mx-auto w-1/2 mt-4 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-4 py-2 rounded-full hover:scale-95 transition duration-150 ease-in-out"
+              >
+                <a className="   font-medium tracking-widest uppercase">
+                  Split
+                </a>
+              </button>
             </div>
           </div>
         </Dialog>
