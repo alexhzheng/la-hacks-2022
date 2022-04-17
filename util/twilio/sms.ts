@@ -12,9 +12,9 @@ const sendText = async (req: any) => {
     const link = await generateQR(sender.address, amount.toString());
 
     await client.messages.create({
-      body: `${sender.address} requests $${payer.usdAmount.toFixed(
-        2
-      )}. Pay at ${link?.metamaskURL}`,
+      body: `${sender.address} requests $${payer.usdAmount.toFixed(2)} for ${
+        sender.description
+      }. Pay at ${link?.metamaskURL}`,
       from: "9034146426",
       to: payer.phoneNumber,
     });

@@ -17,6 +17,7 @@ import { IoClose } from "react-icons/io5";
 
 import { Dialog, Transition } from "@headlessui/react";
 import { calcPaymentAmts } from "../util/splitCalc";
+import { mint } from "../util/nft/mint";
 
 const Home: NextPage = () => {
   const address = useAddress();
@@ -32,6 +33,7 @@ const Home: NextPage = () => {
   }
 
   const [total, setTotal] = useState(0);
+  const [description, setDescription] = useState("");
   const [inputList, setInputList] = useState([{ phoneNumber: "", ratio: 0 }]);
   const handleAddClick = () => {
     setInputList([...inputList, { phoneNumber: "", ratio: 0 }]);
@@ -60,13 +62,13 @@ const Home: NextPage = () => {
       </div>
       <main className="flex h-full min-h-screen justify-center items-center text-center overflow-hidden relative">
         <div className="">
-          <h1 className="text-9xl text-center font-bold text-transparent bg-clip-text bg-gradient-to-tr from-sky-600 to-white mb-2">
-            Welcome t0
+          <h1 className="text-6xl md:text-9xl text-center font-bold text-transparent bg-clip-text bg-gradient-to-tr from-sky-600 to-white mb-2">
+            Welcome to
           </h1>
-          <h1 className="text-7xl text-center font-bold text-transparent bg-clip-text bg-gradient-to-tr from-sky-600 to-white">
+          <h1 className="text-5xl md:text-7xl text-center font-bold text-transparent bg-clip-text bg-gradient-to-tr from-sky-600 to-white">
             Split-A-Bill!
           </h1>
-          <h3 className="py-4 text-2xl font-barlow ">
+          <h3 className="px-4 py-4 text-2xl font-barlow ">
             We help automate calculate bill splitting for crypto enthusiasts!
           </h3>
           <div className="flex flex-col gap-x-4 justify-center items-center">
@@ -77,6 +79,13 @@ const Home: NextPage = () => {
                 onClick={() => openModal()}
               >
                 Request Payment Now
+              </button>
+              <button
+                className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-4 py-2 rounded-full hover:scale-95 transition duration-150 ease-in-out"
+                type="button"
+                onClick={() => mint()}
+              >
+                Mint
               </button>
             </div>
           </div>
@@ -113,16 +122,25 @@ const Home: NextPage = () => {
               >
                 Split Your Payments!
               </Dialog.Title>
-              <div className="my-4 ">
+              <div className="my-4">
                 <p className="text-2xl font-medium font-barlow text-black text-center pt-2">
                   Total (in USD)
                 </p>
                 <input
-                  className="rounded border-2 border-black p-1  flex mx-auto"
+                  className="mt-1 rounded border-2 border-black p-1 flex mx-auto"
                   type="number"
                   placeholder="0"
                   value={total}
                   onChange={(e) => setTotal(e.target.value)}
+                />
+                <p className="text-2xl font-medium font-barlow text-black text-center pt-2">
+                  Description
+                </p>
+                <textarea
+                  className="mt-1 rounded border-2 border-black p-1 flex mx-auto min-w-full"
+                  placeholder="Enter Description"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
                 />
               </div>
               <div className="flex">
@@ -192,7 +210,9 @@ const Home: NextPage = () => {
                   alert(amts);
                   const x = JSON.parse(amts);
                   x[0].address = address;
+                  x[0].description = description;
                   sendSMS(x);
+                  closeModal();
                 }}
                 className=" flex text-2xl text-center justify-center items-center mx-auto w-1/2 mt-4 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-4 py-2 rounded-full hover:scale-95 transition duration-150 ease-in-out"
               >
