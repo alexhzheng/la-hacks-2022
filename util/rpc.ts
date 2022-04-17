@@ -61,7 +61,7 @@ const getRecentTransactions = async (provider: any, address: string) => {
  * Gets the current price of 1 ETH in USD
  * @returns 
  */
-const getEthPriceInEth = async () => {
+const getEthPriceInUSD = async () => {
   const url = "https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd";
   const response = await fetch(url);
   const data = await response.json();
