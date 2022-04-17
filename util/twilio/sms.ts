@@ -14,7 +14,7 @@ const sendText = async (req: any) => {
     await client.messages.create({
       body: `${sender.address} requests $${payer.usdAmount.toFixed(
         2
-      )}. Pay at ${link?.metamaskURL}`,
+      )}. Pay at ${link?.metamaskURL}. When you're done, reply with the transaction hash (found on Etherscan).`,
       from: "9034146426",
       to: payer.phoneNumber,
     });

@@ -37,7 +37,8 @@ async function checkTransaction(provider: JsonRpcProvider, hash: string, senderP
         return true;
       }
     }
-  return false;
+    return false;
+  }
 }
 
 /**
@@ -62,7 +63,7 @@ const getGasPrice = async (provider: any) => {
 
 /**
  * Returns the recent transactions of an address. From https://github.com/ethers-io/ethers.js/issues/326
-
+ 
  * @param provider 
  * @param address 
  * @returns 
@@ -109,6 +110,5 @@ const oxSwap = async (provider: any, params: { buyToken: string, sellToken: stri
 }
 
 export {
-  getProvider, oxSwap, getGasPrice, getEthPriceInUSD, getBalance, getRecentTransactions,
-  getEtherscanProvider, checkTransaction
+  getProvider, oxSwap, getGasPrice, getEthPriceInUSD, getBalance, getRecentTransactions, getEtherscanProvider, checkTransaction
 };
