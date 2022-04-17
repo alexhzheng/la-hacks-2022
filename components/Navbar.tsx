@@ -9,6 +9,7 @@ import {
 } from "@thirdweb-dev/react";
 import metaMask from "../public/metamask.svg";
 import image from "next/image";
+import { useRouter } from "next/router";
 
 const Navbar = () => {
   const address = useAddress();
@@ -16,11 +17,24 @@ const Navbar = () => {
   const disconnectWallet = useDisconnect();
   const connectWithWalletConnect = useWalletConnect();
   const connectWithCoinbaseWallet = useCoinbaseWallet();
+  const router = useRouter();
   return (
-    <nav className="  h-20  shadow-lg flex items-center justify-between max-w-full px-24">
-      <h1 className="text-4xl font-barlow font-medium tracking-wide">
-        Split-A-Bill
-      </h1>
+    <nav className=" h-20  shadow-lg flex items-center justify-between max-w-full px-24">
+      <div className="flex flex-row gap-x-7">
+        <h1 className="text-4xl font-barlow font-medium tracking-wide">
+          <button
+            onClick={() => { router.push("/") }}
+          >
+            Split-A-Bill
+          </button>
+        </h1>
+        <button
+          className="flex items-center self-end"
+          onClick={() => router.push("/history/")}
+        >
+          History
+        </button>
+      </div >
       <div className="">
         {address ? (
           <div className="flex flex-col">
@@ -55,7 +69,7 @@ const Navbar = () => {
           </div>
         )}
       </div>
-    </nav>
+    </nav >
   );
 };
 

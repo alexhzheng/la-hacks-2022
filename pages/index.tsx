@@ -3,7 +3,7 @@ import { useEffect, useState, Fragment } from "react";
 import Head from "next/head";
 import Image from "next/image";
 import Navbar from "../components/Navbar";
-import { testRPC, oxSwap } from "../util/rpc";
+import { getProvider, oxSwap } from "../util/rpc";
 import { generateQR } from "../util/qr";
 import axios from "axios";
 import {
@@ -67,7 +67,7 @@ const Home: NextPage = () => {
             Split-A-Bill!
           </h1>
           <h3 className="py-4 text-2xl font-barlow ">
-            We help automate calculate bill splitting for the crypto
+            We help automate calculate bill splitting for crypto
             enthusiasts!
           </h3>
           <div className="flex flex-col gap-x-4 justify-center items-center">

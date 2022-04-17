@@ -6,19 +6,25 @@ const rpcUrl = "https://rpc.ankr.com/eth_rinkeby";
 const testWallet = "0x86283791B4e9BF64AA71b921A302559b48911c61";
 
 /* Test the ethers and thirdweb sdk */
-async function testRPC() {
-
+async function getProvider() {
   const provider = new ethers.providers.JsonRpcProvider(rpcUrl);
+  // console.log(await getRecentTransactions(etherscanProvider, testWallet));
+  return provider;
+}
+
+async function getEtherscanProvider() {
   const etherscanAPIKey = "R4THFBMEYI8YEYQ31D5H2VBAUMTGMZ7TVZ";
   const etherscanProvider = new ethers.providers.EtherscanProvider("rinkeby", etherscanAPIKey);
-
-  const sdk = new ThirdwebSDK(rpcUrl);
-  const signer = provider.getSigner()
-
-  const balance = await provider.getBalance(testWallet)
-  console.log("Balance in ether: ", ethers.utils.formatEther(balance))
-
-  console.log(await getRecentTransactions(etherscanProvider, testWallet));
+  return etherscanProvider
+}
+/**
+ * Get the balance of a wallet
+ * @param provider 
+ * @param address 
+ */
+const getBalance = async (provider: any, address: string) => {
+  const balance = await provider.getBalance(address);
+  return ethers.utils.formatEther(balance);
 }
 
 /**
@@ -71,7 +77,7 @@ const getEthPriceInUSD = async () => {
 /* Return quote for a given token pair
 https://www.0x.org/docs/guides/swap-tokens-with-0x-api#fetching-a-swap-quote
 Note: Doesn't support Rinkeby rip */
-const oxSwap = async (provider: any, params: {buyToken: string, sellToken: string, buyAmount: string}) => {
+const oxSwap = async (provider: any, params: { buyToken: string, sellToken: string, buyAmount: string }) => {
   const response = await fetch(
     `https://api.0x.org/swap/v1/quote?${qs.stringify(params)}`
   );
@@ -79,4 +85,4 @@ const oxSwap = async (provider: any, params: {buyToken: string, sellToken: strin
   provider.sendTransactin(response.json());
 }
 
-export { testRPC, oxSwap, getGasPrice, getEthPriceInUSD };
+export { getProvider, oxSwap, getGasPrice, getEthPriceInUSD, getBalance };
