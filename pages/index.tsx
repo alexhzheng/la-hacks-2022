@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Head from "next/head";
 import Image from "next/image";
 import Navbar from "../components/Navbar";
-import { testRPC, oxSwap } from "../util/ankr";
+import { testRPC, oxSwap } from "../util/rpc";
 import { generateQR } from "../util/qr";
 import {
   useAddress,
@@ -16,9 +16,14 @@ const Home: NextPage = () => {
   const [click, setClick] = useState(false);
   const [uri, setUri] = useState("");
   const address = useAddress();
+
   const handleClick = async () => {
     setClick(!click);
-    const x = generateQR(address, "1e16").then((data) => setUri(data));
+    if (!address) {
+    console.log("address is undefined");
+    return;
+    }
+    const x = generateQR(address, "1e16").then((data) => setUri(data || ""));
     console.log(uri);
   };
   const [Clicked, setClicked] = useState(true);

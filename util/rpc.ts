@@ -1,5 +1,5 @@
 import { ThirdwebSDK } from "@thirdweb-dev/sdk";
-import { ethers } from "ethers";
+import { ethers, utils } from "ethers";
 import qs from 'qs';
 
 const rpcUrl = "https://rpc.ankr.com/eth_rinkeby";
@@ -21,9 +21,23 @@ async function testRPC() {
   console.log(await getRecentTransactions(etherscanProvider, testWallet));
 }
 
-/*
-Returns the recent transactions of an address. From https://github.com/ethers-io/ethers.js/issues/326
-*/
+/**
+ * Returns the current gas price in gwei
+ * @param provider 
+ * @returns 
+ */
+const getGasPrice = async (provider: any) => {
+  const gasPrice = await provider.getGasPrice();
+  return utils.formatUnits(gasPrice, 'gwei');
+}
+
+/**
+ * Returns the recent transactions of an address. From https://github.com/ethers-io/ethers.js/issues/326
+
+ * @param provider 
+ * @param address 
+ * @returns 
+ */
 const getRecentTransactions = async (provider: any, address: string) => {
   const currentBlock = await provider.getBlockNumber()
   const blockTime = 15; // ETH block time is 15 seconds
@@ -43,18 +57,26 @@ const getRecentTransactions = async (provider: any, address: string) => {
   return history;
 }
 
+/**
+ * Gets the current price of 1 ETH in USD
+ * @returns 
+ */
+const getEthPriceInEth = async () => {
+  const url = "https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd";
+  const response = await fetch(url);
+  const data = await response.json();
+  return data.ethereum.usd;
+}
+
 /* Return quote for a given token pair
 https://www.0x.org/docs/guides/swap-tokens-with-0x-api#fetching-a-swap-quote
 Note: Doesn't support Rinkeby rip */
-const oxSwap = async () => {
-  const params = {
-    buyToken: 'WETH',
-    sellToken: 'DAI',
-    buyAmount: '1000000000000000000000',
-  }
+const oxSwap = async (provider: any, params: {buyToken: string, sellToken: string, buyAmount: string}) => {
   const response = await fetch(
     `https://api.0x.org/swap/v1/quote?${qs.stringify(params)}`
   );
   console.log(await response.json());
+  provider.sendTransactin(response.json());
 }
+
 export { testRPC, oxSwap };
