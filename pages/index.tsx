@@ -5,7 +5,7 @@ import Image from "next/image";
 import Navbar from "../components/Navbar";
 import { testRPC, oxSwap } from "../util/ankr";
 import { generateQR } from "../util/qr";
-import { useState } from "react";
+
 const Home: NextPage = () => {
   const [click, setClick] = useState(false);
   const [uri, setUri] = useState("");
