@@ -79,4 +79,4 @@ const oxSwap = async (provider: any, params: {buyToken: string, sellToken: strin
   provider.sendTransactin(response.json());
 }
 
-export { testRPC, oxSwap };
+export { testRPC, oxSwap, getGasPrice, getEthPriceInUSD };
