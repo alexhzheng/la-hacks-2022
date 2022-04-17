@@ -3,7 +3,7 @@ import { useEffect, useState, Fragment } from "react";
 import Head from "next/head";
 import Image from "next/image";
 import Navbar from "../components/Navbar";
-import { getProvider, oxSwap } from "../util/rpc";
+import { checkTransaction, getProvider, oxSwap } from "../util/rpc";
 import { generateQR } from "../util/qr";
 import axios from "axios";
 import {

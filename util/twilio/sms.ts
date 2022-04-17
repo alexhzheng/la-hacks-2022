@@ -12,9 +12,11 @@ const sendText = async (req: any) => {
     const link = await generateQR(sender.address, amount.toString());
 
     await client.messages.create({
-      body: `${sender.address} requests $${payer.usdAmount.toFixed(2)} for ${
+      body: `${sender.address} requests $${payer.usdAmount.toFixed(2)}for ${
         sender.description
-      }. Pay at ${link?.metamaskURL}`,
+      }. Pay at ${
+        link?.metamaskURL
+      }. When you're done, reply with the transaction hash (found on Etherscan).`,
       from: "9034146426",
       to: payer.phoneNumber,
     });

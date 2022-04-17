@@ -1,3 +1,4 @@
+import { JsonRpcProvider } from "@ethersproject/providers";
 import { ThirdwebSDK } from "@thirdweb-dev/sdk";
 import { ethers, utils } from "ethers";
 import qs from 'qs';
@@ -17,12 +18,35 @@ async function getEtherscanProvider() {
   const etherscanProvider = new ethers.providers.EtherscanProvider("rinkeby", etherscanAPIKey);
   return etherscanProvider
 }
+
+/**
+ * Function to check if 
+ * @param provider 
+ * @param hash 
+ * @param senderPhone 
+ * @returns 
+ */
+async function checkTransaction(provider: JsonRpcProvider, hash: string, senderPhone: string) {
+  const transaction = await provider.getTransaction(hash);
+  const amount = ethers.utils.formatEther(transaction.value);
+  const receiver = transaction.to;
+  const transactionList = JSON.parse(localStorage.getItem("transactionList") || "[]");
+  for (const t of transactionList) {
+    for (const entry of t) {
+      if (entry.phone == senderPhone && Math.abs(parseFloat(amount) - entry.amount) < 0.001 && receiver == ent) {
+        return true;
+      }
+    }
+    return false;
+  }
+}
+
 /**
  * Get the balance of a wallet
  * @param provider 
  * @param address 
  */
-const getBalance = async (provider: any, address: string) => {
+const getBalance = async (provider: JsonRpcProvider, address: string) => {
   const balance = await provider.getBalance(address);
   return ethers.utils.formatEther(balance);
 }
@@ -39,7 +63,7 @@ const getGasPrice = async (provider: any) => {
 
 /**
  * Returns the recent transactions of an address. From https://github.com/ethers-io/ethers.js/issues/326
-
+ 
  * @param provider 
  * @param address 
  * @returns 
@@ -85,4 +109,6 @@ const oxSwap = async (provider: any, params: { buyToken: string, sellToken: stri
   provider.sendTransactin(response.json());
 }
 
-export { getProvider, oxSwap, getGasPrice, getEthPriceInUSD, getBalance };
+export {
+  getProvider, oxSwap, getGasPrice, getEthPriceInUSD, getBalance, getRecentTransactions, getEtherscanProvider, checkTransaction
+};
