@@ -15,14 +15,8 @@ export default async function handler(
   res: NextApiResponse<Data>
 ) {
   try {
-    const result: any = await sendEmail();
-    console.log(result);
-    console.log(result.success);
-    if (result !== undefined) {
-      res.status(200).json({ name: "successful" });
-    } else {
-      res.status(200).json({ name: "unsuccessful" });
-    }
+    const result: any = await sendEmail(req);
+    res.status(200).json(result);
   } catch (err) {
     console.error(err);
     res.status(500).json({ name: "Failed to send" });
