@@ -19,13 +19,13 @@ const Slideshow = () => {
         showIndicators={false}
       >
         <div className="mt-10 flex flex-col justify-center items-center">
-          <div className="relative h-80 w-80 md:h-[500px] md:w-[600px] ">
+          <div className="relative h-80 w-80 md:h-[500px] md:w-[500px] ">
             <Image
-              className=""
+              className="rounded-xl"
               src={step1}
               alt="step1"
               layout="fill"
-              objectFit="contain"
+              objectFit="cover"
             />
           </div>
           <div className="  text-2xl md:text-3xl px-4 mb-8 font-barlow">
@@ -33,13 +33,13 @@ const Slideshow = () => {
           </div>
         </div>
         <div className="mt-10 flex flex-col justify-center items-center">
-          <div className="relative h-80 w-80 md:h-[500px] md:w-[600px]">
+          <div className="relative h-80 w-80 md:h-[500px] md:w-[500px]">
             <Image
-              className=""
+              className="rounded-xl"
               src={step2}
               alt="step2"
               layout="fill"
-              objectFit="contain"
+              objectFit="cover"
             />
           </div>
           <div className="  text-2xl md:text-3xl px-4 mb-8 font-barlow">
@@ -47,13 +47,13 @@ const Slideshow = () => {
           </div>
         </div>
         <div className="mt-10 flex flex-col justify-center items-center">
-          <div className="relative h-80 w-80 md:h-[500px] md:w-[600px]">
+          <div className="relative h-80 w-80 md:h-[500px] md:w-[500px]">
             <Image
-              className=""
+              className="rounded-xl"
               src={step3}
               alt="step3"
               layout="fill"
-              objectFit="contain"
+              objectFit="cover"
             />
           </div>
           <div className="  text-2xl md:text-3xl px-4 mb-8 font-barlow">
