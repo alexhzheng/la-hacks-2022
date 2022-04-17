@@ -7,6 +7,8 @@ import {
   useWalletConnect,
   useCoinbaseWallet,
 } from "@thirdweb-dev/react";
+import metaMask from "../public/metamask.svg";
+import image from "next/image";
 
 const Navbar = () => {
   const address = useAddress();
@@ -15,8 +17,10 @@ const Navbar = () => {
   const connectWithWalletConnect = useWalletConnect();
   const connectWithCoinbaseWallet = useCoinbaseWallet();
   return (
-    <nav className="flex items-center justify-between max-w-full mt-4 px-24">
-      <h1 className="text-2xl">Split-A-Bill</h1>
+    <nav className="  h-20  shadow-lg flex items-center justify-between max-w-full px-24">
+      <h1 className="text-4xl font-barlow font-medium tracking-wide">
+        Split-A-Bill
+      </h1>
       <div className="">
         {address ? (
           <div className="flex flex-col">
@@ -30,27 +34,23 @@ const Navbar = () => {
             </button>
           </div>
         ) : (
-          <div className="flex flex-col gap-y-4">
+          <div className="">
             <button
-              className="cursor-pointer bg-sky-400 px-4 py-2 rounded-3xl hover:scale-95 transition duration-150 ease-in-out"
+              className=" flex flex-row justify-center items-center gap-x-2 cursor-pointer bg-sky-400 px-4 py-2 rounded-3xl hover:scale-95 transition duration-150 ease-in-out"
               type="button"
               onClick={connectWithMetamask}
             >
-              Connect Metamask
-            </button>
-            <button
-              className="cursor-pointer bg-sky-400 px-4 py-2 rounded-3xl hover:scale-95 transition duration-150 ease-in-out"
-              type="button"
-              onClick={connectWithWalletConnect}
-            >
-              Connect WalletConnect
-            </button>
-            <button
-              className="cursor-pointer bg-sky-400 px-4 py-2 rounded-3xl hover:scale-95 transition duration-150 ease-in-out"
-              type="button"
-              onClick={connectWithCoinbaseWallet}
-            >
-              Connect Coinbase Wallet
+              <div className="relative h-9 w-9">
+                <Image
+                  src={metaMask}
+                  alt="metamask icon"
+                  layout="fill"
+                  objectFit="contain"
+                />
+              </div>
+              <div className="font-barlow text-xl uppercase">
+                Connect Metamask
+              </div>
             </button>
           </div>
         )}
