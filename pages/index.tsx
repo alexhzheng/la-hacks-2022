@@ -67,8 +67,7 @@ const Home: NextPage = () => {
             Split-A-Bill!
           </h1>
           <h3 className="py-4 text-2xl font-barlow ">
-            We help automate calculate bill splitting for crypto
-            enthusiasts!
+            We help automate calculate bill splitting for crypto enthusiasts!
           </h3>
           <div className="flex flex-col gap-x-4 justify-center items-center">
             <div className="flex gap-x-4">
@@ -77,17 +76,7 @@ const Home: NextPage = () => {
                 type="button"
                 onClick={() => openModal()}
               >
-                Get Started Now
-              </button>
-              <button
-                onClick={() => {
-                  sendSMS();
-                }}
-                className="flex text-2xl text-center justify-center items-center mx-auto w-1/2 mt-4 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-4 py-2 rounded-full hover:scale-95 transition duration-150 ease-in-out"
-              >
-                <a className="font-medium tracking-widest uppercase">
-                  Send SMS
-                </a>
+                Request Payment Now
               </button>
             </div>
           </div>
