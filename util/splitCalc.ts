@@ -15,7 +15,7 @@ type Input = {
 const calcPaymentAmts = async (totalCost: number, inputList: Input[]) => {
   let ratioTotal: number = 0;
   inputList.map((input, x) => (ratioTotal += input.ratio));
-  const amts = inputList.map((input) => (totalCost * input.ratio) / 100);
+  // const amts = inputList.map((input) => (totalCost * input.ratio) / 100);
   let owed: any[] = [];
   const eth = await getEthPriceInUSD();
   console.log(eth);
@@ -24,8 +24,8 @@ const calcPaymentAmts = async (totalCost: number, inputList: Input[]) => {
     // console.log(eth);
     const y = {
       phoneNumber: input.phoneNumber,
-      usdAmount: (totalCost * input.ratio) / 100,
-      amount: (totalCost * input.ratio) / 100 / eth,
+      usdAmount: (totalCost * input.ratio) / ratioTotal,
+      amount: (totalCost * input.ratio) / ratioTotal / eth,
     };
 
     owed.push({ ...y });
