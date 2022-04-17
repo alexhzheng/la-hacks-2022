@@ -58,7 +58,7 @@ const Home: NextPage = () => {
 
   return (
     <div className="relative overflow-hidden">
-      <div className="z-10 sticky top-0 bg-stone-100 sm:w-full ">
+      <div className="z-10 fixed w-full top-0 bg-stone-100 sm:w-full ">
         <Navbar />
       </div>
 

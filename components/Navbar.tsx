@@ -8,7 +8,6 @@ import {
   useCoinbaseWallet,
 } from "@thirdweb-dev/react";
 import metaMask from "../public/metamask.svg";
-import image from "next/image";
 
 import { FaCopy } from "react-icons/fa";
 import toast from "react-hot-toast";
@@ -24,7 +23,7 @@ const Navbar = () => {
   const connectWithCoinbaseWallet = useCoinbaseWallet();
   const router = useRouter();
   return (
-    <nav className="h-20 shadow-lg flex items-center justify-between max-w-full px-2 md:px-24">
+    <nav className="h-20 shadow-lg flex items-center justify-between max-w-full px-2 md:px-24 fixed w-full">
       <div className="flex flex-row gap-x-7">
         <h1 className="text-4xl font-barlow font-medium tracking-wide  ">
           <button
