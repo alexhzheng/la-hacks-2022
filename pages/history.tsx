@@ -5,14 +5,30 @@ import Image from "next/image";
 import Navbar from "../components/Navbar";
 import { calcPaymentAmts } from "../util/splitCalc";
 import profpic from "../public/profpic.png";
-import { getEthPriceInUSD } from "../util/rpc";
+import { getBalance, getEthPriceInUSD, getProvider } from "../util/rpc";
+import { useAddress } from "@thirdweb-dev/react";
 
 const History: NextPage = () => {
   const [amountOwed, setAmountOwed] = useState(125.38);
   const [exchangeRate, setExchangeRate] = useState(1);
+  const address = useAddress();
+  const [balance, setBalance] = useState("0");
+
   useEffect(() => {
     getEthPriceInUSD().then((rate) => setExchangeRate(rate));
-  }, []);
+  });
+
+  useEffect(() => {
+    async function load() {
+      if (address) {
+        const ankrProvider = await getProvider();
+        getBalance(ankrProvider, address).then((bal) => {
+          setBalance(bal);
+        });
+      };
+    }
+    load();
+  }, [address]);
 
   return (
     <div className="">
@@ -32,6 +48,7 @@ const History: NextPage = () => {
             Your Account
           </h1>
           <div className="flex flex-row gap-x-2 my-4 justify-center items-center">
+            Current wallet balance (ETH): {balance} <br />
             Total Amount Owed (USDC): ${amountOwed} <br />
             Total Amount Owed (SOL): {amountOwed / exchangeRate}
           </div>
