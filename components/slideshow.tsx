@@ -17,7 +17,6 @@ const Slideshow = () => {
         showArrows={false}
         showThumbs={false}
         showIndicators={false}
-        showThumbs={false}
       >
         <div className="mt-10 flex flex-col justify-center items-center">
           <div className="relative h-80 w-80 md:h-[500px] md:w-[600px] ">
