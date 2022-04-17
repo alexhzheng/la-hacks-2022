@@ -61,10 +61,6 @@ const Home: NextPage = () => {
 
   let [isOpen, setIsOpen] = useState(false);
 
-  function closeModal() {
-    setIsOpen(false);
-  }
-
   function openModal() {
     setIsOpen(true);
   }
@@ -76,6 +72,26 @@ const Home: NextPage = () => {
     user2Ratio: 0,
   });
 
+  const [total, setTotal] = useState(0);
+  const [inputList, setInputList] = useState([{ phoneNumber: "", ratio: 0 }]);
+  const handleAddClick = () => {
+    setInputList([...inputList, { phoneNumber: "", ratio: 0 }]);
+  };
+  const handleInputChange = (e, index) => {
+    const { name, value } = e.target;
+    const list = [...inputList];
+    list[index][name] = value;
+    setInputList(list);
+  };
+  const handleRemoveClick = (index) => {
+    const list = [...inputList];
+    list.splice(index, 1);
+    setInputList(list);
+  };
+  function closeModal() {
+    setIsOpen(false);
+    setInputList([{ phoneNumber: "", ratio: 0 }]);
+  }
   return (
     <div className="relative">
       <div className="z-50 bg-stone-100 fixed w-full ">
@@ -136,7 +152,7 @@ const Home: NextPage = () => {
               &#8203;
             </span>
 
-            <div className=" font-barlow inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-stone-200 shadow-xl rounded-2xl ">
+            <div className="font-barlow inline-block w-full max-w-lg p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-stone-200 shadow-xl rounded-2xl ">
               <div
                 className="flex justify-end cursor-pointer"
                 onClick={closeModal}
@@ -160,66 +176,56 @@ const Home: NextPage = () => {
                   className="rounded border-2 border-black p-1  flex mx-auto"
                   type="text"
                   placeholder="0"
-                  value={formData.total}
-                  onChange={(e) =>
-                    setFormData({
-                      ...formData,
-                      total: parseFloat(e.target.value),
-                    })
-                  }
+                  value={total}
+                  onChange={(e) => setTotal(parseFloat(e.target.value))}
                 />
               </div>
-              <div className="flex w-full gap-x-4 justify-around">
-                <div>Email/phone</div>
+              <div className="flex justify-evenly">
+                <div>Phone</div>
                 <div>Ratio</div>
               </div>
-              <div className="flex gap-x-4 justify-center items-center">
-                <input
-                  className="rounded border-2 border-black p-1"
-                  type="text"
-                  placeholder="bob@gmail.com"
-                  value={formData.user2Contact}
-                  onChange={(e) =>
-                    setFormData({ ...formData, user2Contact: e.target.value })
-                  }
-                />
-                <input
-                  className="rounded border-2 border-black p-1"
-                  type="number"
-                  placeholder="1"
-                  value={formData.user2Ratio}
-                  onChange={(e) =>
-                    setFormData({
-                      ...formData,
-                      user2Ratio: parseFloat(e.target.value),
-                    })
-                  }
-                />
-              </div>
-              <div className=" mt-4 flex gap-x-4 justify-center items-center">
-                <input
-                  className="rounded border-2 border-black p-1"
-                  type="text"
-                  placeholder="bob@gmail.com"
-                  value={formData.user1Contact}
-                  onChange={(e) =>
-                    setFormData({ ...formData, user1Contact: e.target.value })
-                  }
-                />
-                <input
-                  className="rounded border-2 border-black p-1"
-                  type="number"
-                  placeholder="1"
-                  value={formData.user1Ratio}
-                  onChange={(e) =>
-                    setFormData({
-                      ...formData,
-                      user1Ratio: parseFloat(e.target.value),
-                    })
-                  }
-                />
-              </div>
-
+              {inputList.map((x, i) => {
+                return (
+                  <div className="flex gap-x-4 my-2" key={i}>
+                    <input
+                      className="rounded border-2 border-black p-1"
+                      type="text"
+                      name="phoneNumber"
+                      placeholder="Add a phone number"
+                      value={x.phoneNumber}
+                      onChange={(e) => handleInputChange(e, i)}
+                    />
+                    <input
+                      className="rounded border-2 border-black p-1"
+                      type="number"
+                      name="ratio"
+                      placeholder="1"
+                      value={x.ratio}
+                      onChange={(e) => handleInputChange(e, i)}
+                    />
+                    {inputList.length - 1 === i && (
+                      <button
+                        type="submit"
+                        className="px-4 bg-blue-300 rounded-xl"
+                        onClick={handleAddClick}
+                      >
+                        {" "}
+                        Add
+                      </button>
+                    )}
+                    {inputList.length !== 1 && (
+                      <button
+                        type="submit"
+                        className="px-4 bg-red-300 rounded-xl"
+                        onClick={() => handleRemoveClick(i)}
+                      >
+                        {" "}
+                        Remove
+                      </button>
+                    )}
+                  </div>
+                );
+              })}
               <button
                 onClick={() => {
                   const amts = calcPaymentAmts(formData.total, [
