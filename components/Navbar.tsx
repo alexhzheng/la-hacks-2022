@@ -9,6 +9,10 @@ import {
 } from "@thirdweb-dev/react";
 import metaMask from "../public/metamask.svg";
 import image from "next/image";
+
+import { FaCopy } from "react-icons/fa";
+import toast from "react-hot-toast";
+
 import { useRouter } from "next/router";
 
 const Navbar = () => {
@@ -20,7 +24,7 @@ const Navbar = () => {
   const router = useRouter();
   return (
     <nav className="h-20 shadow-lg flex items-center justify-between max-w-full px-2 md:px-24">
-      <div className="flex flex-row gap-x-7">
+      <div className="flex flex-row items-center gap-x-7">
         <h1 className="text-4xl font-barlow font-medium tracking-wide">
           <button
             onClick={() => {
@@ -30,21 +34,31 @@ const Navbar = () => {
             Splitty
           </button>
         </h1>
-        <button
-          className="flex items-center self-end"
+        <div
+          className="flex items-center self-end cursor-pointer"
           onClick={() => router.push("/history/")}
         >
           History
-        </button>
+        </div>
       </div>
       <div className="">
         {address ? (
-          <div className="flex flex-col">
-            <p>address: {address}</p>
-
+          <div className="flex flex-col items-end">
+            <div
+              className="flex items-center gap-x-2 cursor-pointer"
+              onClick={() => {
+                navigator.clipboard.writeText(address);
+                toast.success("Copied to clipboard!");
+              }}
+            >
+              <p>
+                address: {address.substr(0, 6)}...{address.substr(-3)}
+              </p>
+              <FaCopy className="text-black" />
+            </div>
             <button
               onClick={disconnectWallet}
-              className="cursor-pointer bg-red-400 px-4 py-2 rounded-3xl hover:scale-95 transition duration-150 ease-in-out"
+              className="cursor-pointer bg-red-400 px-8 py-2 rounded-3xl hover:scale-95 transition duration-150 ease-in-out"
             >
               Disconnect Wallet
             </button>
