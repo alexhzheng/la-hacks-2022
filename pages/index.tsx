@@ -136,12 +136,14 @@ const Home: NextPage = () => {
               &#8203;
             </span>
 
-            <div className=" font-barlow inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl ">
+            <div className=" font-barlow inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-stone-200 shadow-xl rounded-2xl ">
               <div
                 className="flex justify-end cursor-pointer"
                 onClick={closeModal}
               >
-                <IoClose className="h-6 w-6 " />
+                <div className="p-1 rounded-lg bg-red-300">
+                  <IoClose className="h-6 w-6 " />
+                </div>
               </div>
 
               <Dialog.Title
