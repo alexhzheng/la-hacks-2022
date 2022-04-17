@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Fragment } from "react";
 import Head from "next/head";
 import Image from "next/image";
 import Navbar from "../components/Navbar";
@@ -13,6 +13,9 @@ import {
   useWalletConnect,
   useCoinbaseWallet,
 } from "@thirdweb-dev/react";
+
+import { Dialog, Transition } from "@headlessui/react";
+
 const Home: NextPage = () => {
   const [click, setClick] = useState(false);
   const [uri, setUri] = useState("");
@@ -23,15 +26,6 @@ const Home: NextPage = () => {
     const x = await generateQR(address, "1e16");
     setUri(x.qr);
   };
-  const [Clicked, setClicked] = useState(true);
-
-  function closeModal() {
-    setClicked(false);
-  }
-
-  function openModal() {
-    setClicked(true);
-  }
 
   const sendEmail = async () => {
     const response = await axios.post("api/sendEmail", {
@@ -63,9 +57,19 @@ const Home: NextPage = () => {
     });
   };
 
+  let [isOpen, setIsOpen] = useState(false);
+
+  function closeModal() {
+    setIsOpen(false);
+  }
+
+  function openModal() {
+    setIsOpen(true);
+  }
+
   return (
-    <div className="">
-      <div className="z-50 bg-stone-100 fixed w-full">
+    <div className="relative">
+      <div className="z-50 bg-stone-100 fixed w-full ">
         <Navbar />
       </div>
       <main className="flex h-full min-h-screen justify-center items-center text-center overflow-hidden relative">
@@ -85,9 +89,7 @@ const Home: NextPage = () => {
               <button
                 className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-4 py-2 rounded-full hover:scale-95 transition duration-150 ease-in-out"
                 type="button"
-                onClick={() => {
-                  sendEmail();
-                }}
+                onClick={() => openModal()}
               >
                 Get Started Now
               </button>
@@ -109,6 +111,47 @@ const Home: NextPage = () => {
             )}
           </div>
         </div>
+
+        <Dialog
+          as="div"
+          className="fixed inset-0 z-50 overflow-y-auto"
+          onClose={closeModal}
+          open={isOpen}
+        >
+          <div className="min-h-screen px-4 text-center">
+            {/* This element is to trick the browser into centering the modal contents. */}
+            <span
+              className="inline-block h-screen align-middle"
+              aria-hidden="true"
+            >
+              &#8203;
+            </span>
+
+            <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+              <Dialog.Title
+                as="h3"
+                className="text-lg font-medium leading-6 text-gray-900"
+              >
+                Modal
+              </Dialog.Title>
+              <div className="mt-2">
+                <p className="text-sm text-gray-500 border-t pt-2">
+                  This is a dialog box
+                </p>
+              </div>
+
+              <div className="mt-4">
+                <button
+                  type="button"
+                  className="inline-flex justify-center px-4 py-2 text-sm text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 duration-300"
+                  onClick={closeModal}
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </Dialog>
       </main>
     </div>
   );

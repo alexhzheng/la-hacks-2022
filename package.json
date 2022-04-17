@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@3rdweb/hooks": "^1.9.2",
+    "@headlessui/react": "^1.5.0",
     "@sendgrid/mail": "^7.6.2",
     "@thirdweb-dev/react": "^2.0.5",
     "@thirdweb-dev/sdk": "^2.0.33",
@@ -20,7 +21,8 @@
     "qrcode": "^1.5.0",
     "qs": "^6.10.3",
     "react": "18.0.0",
-    "react-dom": "18.0.0"
+    "react-dom": "18.0.0",
+    "react-use": "^17.3.2"
   },
   "devDependencies": {
     "@types/node": "17.0.24",
