@@ -25,14 +25,14 @@ const Navbar = () => {
   const router = useRouter();
   return (
     <nav className="h-20 shadow-lg flex items-center justify-between max-w-full px-2 md:px-24">
-      <div className="flex flex-row items-center gap-x-7">
-        <h1 className="text-4xl font-barlow font-medium tracking-wide">
+      <div className="flex flex-row gap-x-7">
+        <h1 className="text-4xl font-barlow font-medium tracking-wide  ">
           <button
             onClick={() => {
               router.push("/");
             }}
           >
-            Splitty
+            <a className="uppercase">Splitty</a>
           </button>
         </h1>
       </div>
@@ -60,7 +60,13 @@ const Navbar = () => {
             </button>
           </div>
         ) : (
-          <div className="">
+          <div className="flex flex-row gap-x-4 font-barlow text-xl">
+            <button
+              className="flex flex-row justify-center items-center gap-x-2 cursor-pointer bg-sky-400 px-4 py-2 rounded-3xl hover:scale-95 transition duration-150 ease-in-out"
+              onClick={() => router.push("/history/")}
+            >
+              History
+            </button>
             <button
               className="flex flex-row justify-center items-center gap-x-2 cursor-pointer bg-sky-400 px-4 py-2 rounded-3xl hover:scale-95 transition duration-150 ease-in-out"
               type="button"
@@ -74,7 +80,7 @@ const Navbar = () => {
                   objectFit="contain"
                 />
               </div>
-              <div className="font-barlow text-xl uppercase">
+              <div className="font-barlow md:text-xl uppercase">
                 Connect Metamask
               </div>
             </button>
