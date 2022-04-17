@@ -20,8 +20,13 @@ const Home: NextPage = () => {
 
   const handleClick = async () => {
     setClick(!click);
+    if (!address) {
+      console.log("wallet not connected");
+      return;
+    }
     const x = await generateQR(address, "1e16");
-    setUri(x.qr);
+    if (x)
+      setUri(x.qr);
   };
   const [Clicked, setClicked] = useState(true);
 
@@ -33,8 +38,14 @@ const Home: NextPage = () => {
     setClicked(true);
   }
 
+  const sendSMS = async () => {
+     await axios.post("api/sendSMS", {
+      address: address,
+      to: "5105856168", // Brandon: 4699316958
+    });
+  };
   const sendEmail = async () => {
-    const response = await axios.post("api/sendEmail", {
+    await axios.post("api/sendEmail", {
       body: [
         {
           address: address,
@@ -59,8 +70,12 @@ const Home: NextPage = () => {
           name: "d",
           email: "justinkim707@gmail.com",
         },
+        {
+          name: "e",
+          email: "brandonbigbrother@gmail.com"
+        },
       ],
-    });
+    })
   };
 
   return (
@@ -78,7 +93,7 @@ const Home: NextPage = () => {
           </h1>
           <h3 className="py-4 text-2xl font-barlow ">
             We help automate calculate bill splitting for the crypto
-            enthuistatis!
+            enthusiasts!
           </h3>
           <div className="flex flex-col gap-x-4 justify-center items-center">
             <div className="flex gap-x-4">
@@ -101,7 +116,15 @@ const Home: NextPage = () => {
                 Test Ethers
               </button>
             </div>
-
+            <button
+              className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-4 py-2 rounded-full hover:scale-95 transition duration-150 ease-in-out"
+              type="button"
+              onClick={() => {
+                sendSMS();
+              }}
+            >
+              Send SMS
+            </button>
             {click && uri !== "" && (
               <div className="h-64 w-64 relative">
                 <img src={uri} alt="qrcode" />

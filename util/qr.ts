@@ -11,6 +11,7 @@ const generateQR = async (addr: string, amount: string) => {
   const metamaskURL = `https://metamask.app.link/send/${addr}@4?value=${amt}`;
   try {
     const qr = await QRCode.toDataURL(metamaskURL);
+    console.log("qr is:", qr);
     return { qr, metamaskURL };
   } catch (err) {
     console.error(err);
