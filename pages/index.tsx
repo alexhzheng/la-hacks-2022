@@ -3,7 +3,7 @@ import { useEffect, useState, Fragment } from "react";
 import Head from "next/head";
 import Image from "next/image";
 import Navbar from "../components/Navbar";
-import { testRPC, oxSwap } from "../util/rpc";
+import { checkTransaction, getProvider, oxSwap } from "../util/rpc";
 import { generateQR } from "../util/qr";
 import axios from "axios";
 import {
@@ -18,62 +18,16 @@ import Slideshow from "../components/slideshow";
 
 import { Dialog, Transition } from "@headlessui/react";
 import { calcPaymentAmts } from "../util/splitCalc";
-import PhoneInput from "react-phone-number-input";
+import { mint } from "../util/nft/mint";
 
 const Home: NextPage = () => {
-  const [click, setClick] = useState(false);
-  const [uri, setUri] = useState("");
   const address = useAddress();
 
-  const handleClick = async () => {
-    setClick(!click);
-    if (!address) {
-      console.log("wallet not connected");
-      return;
-    }
-    const x = await generateQR(address, "1e16");
-    if (x) setUri(x.qr);
-  };
 
-  const sendSMS = async () => {
-    await axios.post("api/sendSMS", {
-      address: address,
-      to: "4699316958", //"5105856168", // Brandon: 4699316958
-      amount: "1e16",
-    });
-  };
-  const sendEmail = async () => {
-    await axios.post("api/sendEmail", {
-      body: [
-        {
-          address: address,
-        },
-        {
-          name: "alex",
-          email: "adsfadsf@gmail.com",
-        },
-        {
-          name: "a",
-          email: "alex@vo2.fans",
-        },
-        {
-          name: "b",
-          email: "alexhz@seas.upenn.edu",
-        },
-        {
-          name: "c",
-          email: "alex.h.zheng@gmail.com",
-        },
-        {
-          name: "d",
-          email: "justinkim707@gmail.com",
-        },
-        {
-          name: "e",
-          email: "brandonbigbrother@gmail.com",
-        },
-      ],
-    });
+
+  const sendSMS = async (body) => {
+    await axios.post("api/sendSMS", body);
+
   };
 
   let [isOpen, setIsOpen] = useState(false);
@@ -83,17 +37,18 @@ const Home: NextPage = () => {
   }
 
   const [total, setTotal] = useState(0);
+  const [description, setDescription] = useState("");
   const [inputList, setInputList] = useState([{ phoneNumber: "", ratio: 0 }]);
   const handleAddClick = () => {
     setInputList([...inputList, { phoneNumber: "", ratio: 0 }]);
   };
-  const handleInputChange = (e, index) => {
+  const handleInputChange = (e: any, index: any) => {
     const { name, value } = e.target;
-    const list = [...inputList];
+    const list: any = [...inputList];
     list[index][name] = value;
     setInputList(list);
   };
-  const handleRemoveClick = (index) => {
+  const handleRemoveClick = (index: any) => {
     const list = [...inputList];
     list.splice(index, 1);
     setInputList(list);
@@ -109,17 +64,18 @@ const Home: NextPage = () => {
       <div className="z-10 sticky top-0 bg-stone-100  w-full ">
         <Navbar />
       </div>
+
       <main className="flex flex-col min-h-screen justify-center items-center text-center relative">
         <div className="my-48">
           <h1 className="text-9xl text-center font-bold text-transparent bg-clip-text bg-gradient-to-tr from-sky-600 to-white mb-2">
+
             Welcome to
           </h1>
-          <h1 className="text-7xl text-center font-bold text-transparent bg-clip-text bg-gradient-to-tr from-sky-600 to-white">
-            Split-A-Bill!
+          <h1 className="text-5xl md:text-7xl text-center font-bold text-transparent bg-clip-text bg-gradient-to-tr from-sky-600 to-white">
+            Splitty
           </h1>
-          <h3 className="py-4 text-2xl font-barlow ">
-            We help automate calculate bill splitting for the crypto
-            enthusiasts!
+          <h3 className="px-4 py-4 text-2xl font-barlow ">
+            We help automate calculate bill splitting for crypto enthusiasts!
           </h3>
           <div className="flex flex-col gap-x-4 justify-center items-center">
             <div className="flex gap-x-4">
@@ -128,7 +84,7 @@ const Home: NextPage = () => {
                 type="button"
                 onClick={() => openModal()}
               >
-                Get Started Now
+                Request Payment Now
               </button>
             </div>
           </div>
@@ -170,16 +126,25 @@ const Home: NextPage = () => {
               >
                 Split Your Payments!
               </Dialog.Title>
-              <div className="my-4 ">
+              <div className="my-4">
                 <p className="text-2xl font-medium font-barlow text-black text-center pt-2">
                   Total (in USD)
                 </p>
                 <input
-                  className="rounded border-2 border-black p-1  flex mx-auto"
+                  className="mt-1 rounded border-2 border-black p-1 flex mx-auto"
                   type="number"
                   placeholder="0"
                   value={total}
                   onChange={(e) => setTotal(e.target.value)}
+                />
+                <p className="text-2xl font-medium font-barlow text-black text-center pt-2">
+                  Description
+                </p>
+                <textarea
+                  className="mt-1 rounded border-2 border-black p-1 flex mx-auto min-w-full"
+                  placeholder="Enter Description"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
                 />
               </div>
               <div className="flex">
@@ -230,7 +195,7 @@ const Home: NextPage = () => {
                 );
               })}
               <button
-                onClick={() => {
+                onClick={async () => {
                   if (total === 0) {
                     alert("Enter total");
                     return;
@@ -244,9 +209,14 @@ const Home: NextPage = () => {
                     alert("Percents must add up to 100");
                     return;
                   }
-                  const amts = calcPaymentAmts(total, inputList);
-                  console.log(amts);
+
+                  const amts = await calcPaymentAmts(total, inputList);
                   alert(amts);
+                  const x = JSON.parse(amts);
+                  x[0].address = address;
+                  x[0].description = description;
+                  sendSMS(x);
+                  closeModal();
                 }}
                 className=" flex text-2xl text-center justify-center items-center mx-auto w-1/2 mt-4 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-4 py-2 rounded-full hover:scale-95 transition duration-150 ease-in-out"
               >

@@ -1,3 +1,4 @@
+import { JsonRpcProvider } from "@ethersproject/providers";
 import { ThirdwebSDK } from "@thirdweb-dev/sdk";
 import { ethers, utils } from "ethers";
 import qs from 'qs';
@@ -6,19 +7,48 @@ const rpcUrl = "https://rpc.ankr.com/eth_rinkeby";
 const testWallet = "0x86283791B4e9BF64AA71b921A302559b48911c61";
 
 /* Test the ethers and thirdweb sdk */
-async function testRPC() {
-
+async function getProvider() {
   const provider = new ethers.providers.JsonRpcProvider(rpcUrl);
+  // console.log(await getRecentTransactions(etherscanProvider, testWallet));
+  return provider;
+}
+
+async function getEtherscanProvider() {
   const etherscanAPIKey = "R4THFBMEYI8YEYQ31D5H2VBAUMTGMZ7TVZ";
   const etherscanProvider = new ethers.providers.EtherscanProvider("rinkeby", etherscanAPIKey);
+  return etherscanProvider
+}
 
-  const sdk = new ThirdwebSDK(rpcUrl);
-  const signer = provider.getSigner()
+/**
+ * Function to check if 
+ * @param provider 
+ * @param hash 
+ * @param senderPhone 
+ * @returns 
+ */
+async function checkTransaction(provider: JsonRpcProvider, hash: string, senderPhone: string) {
+  const transaction = await provider.getTransaction(hash);
+  const amount = ethers.utils.formatEther(transaction.value);
+  const receiver = transaction.to;
+  const transactionList = JSON.parse(localStorage.getItem("transactionList") || "[]");
+  for (const t of transactionList) {
+    for (const entry of t) {
+      if (entry.phone == senderPhone && Math.abs(parseFloat(amount) - entry.amount) < 0.001 && receiver == ent) {
+        return true;
+      }
+    }
+    return false;
+  }
+}
 
-  const balance = await provider.getBalance(testWallet)
-  console.log("Balance in ether: ", ethers.utils.formatEther(balance))
-
-  console.log(await getRecentTransactions(etherscanProvider, testWallet));
+/**
+ * Get the balance of a wallet
+ * @param provider 
+ * @param address 
+ */
+const getBalance = async (provider: JsonRpcProvider, address: string) => {
+  const balance = await provider.getBalance(address);
+  return ethers.utils.formatEther(balance);
 }
 
 /**
@@ -33,7 +63,7 @@ const getGasPrice = async (provider: any) => {
 
 /**
  * Returns the recent transactions of an address. From https://github.com/ethers-io/ethers.js/issues/326
-
+ 
  * @param provider 
  * @param address 
  * @returns 
@@ -71,7 +101,7 @@ const getEthPriceInUSD = async () => {
 /* Return quote for a given token pair
 https://www.0x.org/docs/guides/swap-tokens-with-0x-api#fetching-a-swap-quote
 Note: Doesn't support Rinkeby rip */
-const oxSwap = async (provider: any, params: {buyToken: string, sellToken: string, buyAmount: string}) => {
+const oxSwap = async (provider: any, params: { buyToken: string, sellToken: string, buyAmount: string }) => {
   const response = await fetch(
     `https://api.0x.org/swap/v1/quote?${qs.stringify(params)}`
   );
@@ -79,4 +109,6 @@ const oxSwap = async (provider: any, params: {buyToken: string, sellToken: strin
   provider.sendTransactin(response.json());
 }
 
-export { testRPC, oxSwap, getGasPrice, getEthPriceInUSD };
+export {
+  getProvider, oxSwap, getGasPrice, getEthPriceInUSD, getBalance, getRecentTransactions, getEtherscanProvider, checkTransaction
+};

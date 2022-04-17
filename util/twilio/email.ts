@@ -1,5 +1,4 @@
 import { generateQR } from "../qr";
-import mjml2html from "mjml";
 
 type People = {
   name: string;
@@ -61,15 +60,16 @@ export async function sendEmail(req: any) {
       trackingSettings: {
         clickTracking: {
           enable: false,
-          enableText: false
+          enableText: false,
         },
         openTracking: {
-          enable: false
-        }
+          enable: false,
+        },
       },
     };
 
-    sgMail.send(msg)
+    sgMail
+      .send(msg)
       .then((response: any) => {
         console.log(response);
       })

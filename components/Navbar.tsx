@@ -9,8 +9,12 @@ import {
 } from "@thirdweb-dev/react";
 import metaMask from "../public/metamask.svg";
 import image from "next/image";
+
 import { FaCopy } from "react-icons/fa";
 import toast from "react-hot-toast";
+
+import { useRouter } from "next/router";
+
 
 const Navbar = () => {
   const address = useAddress();
@@ -18,11 +22,26 @@ const Navbar = () => {
   const disconnectWallet = useDisconnect();
   const connectWithWalletConnect = useWalletConnect();
   const connectWithCoinbaseWallet = useCoinbaseWallet();
+  const router = useRouter();
   return (
-    <nav className="  h-20  shadow-lg flex items-center justify-between max-w-full px-24">
-      <h1 className="text-4xl font-barlow font-medium tracking-wide">
-        Split-A-Bill
-      </h1>
+    <nav className="h-20 shadow-lg flex items-center justify-between max-w-full px-2 md:px-24">
+      <div className="flex flex-row gap-x-7">
+        <h1 className="text-4xl font-barlow font-medium tracking-wide">
+          <button
+            onClick={() => {
+              router.push("/");
+            }}
+          >
+            Splitty
+          </button>
+        </h1>
+        <button
+          className="flex items-center self-end"
+          onClick={() => router.push("/history/")}
+        >
+          History
+        </button>
+      </div>
       <div className="">
         {address ? (
           <div className="flex flex-col items-end">
@@ -48,7 +67,7 @@ const Navbar = () => {
         ) : (
           <div className="">
             <button
-              className=" flex flex-row justify-center items-center gap-x-2 cursor-pointer bg-sky-400 px-4 py-2 rounded-3xl hover:scale-95 transition duration-150 ease-in-out"
+              className="flex flex-row justify-center items-center gap-x-2 cursor-pointer bg-sky-400 px-4 py-2 rounded-3xl hover:scale-95 transition duration-150 ease-in-out"
               type="button"
               onClick={connectWithMetamask}
             >
