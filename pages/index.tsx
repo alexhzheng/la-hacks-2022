@@ -17,6 +17,7 @@ import { IoClose } from "react-icons/io5";
 
 import { Dialog, Transition } from "@headlessui/react";
 import { calcPaymentAmts } from "../util/splitCalc";
+import PhoneInput from "react-phone-number-input";
 
 const Home: NextPage = () => {
   const [click, setClick] = useState(false);
@@ -80,13 +81,6 @@ const Home: NextPage = () => {
   function openModal() {
     setIsOpen(true);
   }
-  const [formData, setFormData] = useState({
-    total: 0,
-    user1Contact: "",
-    user2Contact: "",
-    user1Ratio: 0,
-    user2Ratio: 0,
-  });
 
   const [total, setTotal] = useState(0);
   const [inputList, setInputList] = useState([{ phoneNumber: "", ratio: 0 }]);
@@ -107,7 +101,9 @@ const Home: NextPage = () => {
   function closeModal() {
     setIsOpen(false);
     setInputList([{ phoneNumber: "", ratio: 0 }]);
+    setTotal(0);
   }
+
   return (
     <div className="relative">
       <div className="z-50 bg-stone-100 fixed w-full ">
@@ -198,10 +194,10 @@ const Home: NextPage = () => {
                 </p>
                 <input
                   className="rounded border-2 border-black p-1  flex mx-auto"
-                  type="text"
+                  type="number"
                   placeholder="0"
                   value={total}
-                  onChange={(e) => setTotal(parseFloat(e.target.value))}
+                  onChange={(e) => setTotal(e.target.value)}
                 />
               </div>
               <div className="flex">
@@ -210,7 +206,7 @@ const Home: NextPage = () => {
               </div>
               {inputList.map((x, i) => {
                 return (
-                  <div className="flex gap-x-4 my-2" key={i}>
+                  <div className="flex gap-x-2 ml-2 my-2" key={i}>
                     <input
                       className="rounded border-2 border-black p-1"
                       type="text"
@@ -219,18 +215,19 @@ const Home: NextPage = () => {
                       value={x.phoneNumber}
                       onChange={(e) => handleInputChange(e, i)}
                     />
+
                     <input
                       className="rounded border-2 border-black p-1"
                       type="number"
                       name="ratio"
-                      placeholder="1"
+                      placeholder="Enter Whole Number Percent"
                       value={x.ratio}
                       onChange={(e) => handleInputChange(e, i)}
                     />
                     {inputList.length - 1 === i && (
                       <button
                         type="submit"
-                        className="px-4 bg-blue-300 rounded-xl"
+                        className="flex flex-grow justify-center items-center bg-blue-300 rounded-xl"
                         onClick={handleAddClick}
                       >
                         {" "}
@@ -240,7 +237,7 @@ const Home: NextPage = () => {
                     {inputList.length !== 1 && (
                       <button
                         type="submit"
-                        className="px-4 bg-red-300 rounded-xl"
+                        className="px-4 bg-red-300 rounded-xl flex-grow justify-center items-center "
                         onClick={() => handleRemoveClick(i)}
                       >
                         {" "}
@@ -252,13 +249,22 @@ const Home: NextPage = () => {
               })}
               <button
                 onClick={() => {
-                  const amts = calcPaymentAmts(formData.total, [
-                    formData.user1Ratio,
-                    formData.user2Ratio,
-                  ]);
-                  alert(
-                    `${formData.user1Contact} owes ${amts[0]}, and ${formData.user2Contact} owes ${amts[1]}`
+                  if (total === 0) {
+                    alert("Enter total");
+                    return;
+                  }
+                  let totalPercent = 0;
+                  inputList.map(
+                    (input, x) => (totalPercent += parseInt(input.ratio))
                   );
+                  console.log(totalPercent);
+                  if (totalPercent !== 100) {
+                    alert("Percents must add up to 100");
+                    return;
+                  }
+                  const amts = calcPaymentAmts(total, inputList);
+                  console.log(amts);
+                  alert(amts);
                 }}
                 className=" flex text-2xl text-center justify-center items-center mx-auto w-1/2 mt-4 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-4 py-2 rounded-full hover:scale-95 transition duration-150 ease-in-out"
               >
