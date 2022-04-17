@@ -17,7 +17,6 @@ import { IoClose } from "react-icons/io5";
 
 import { Dialog, Transition } from "@headlessui/react";
 import { calcPaymentAmts } from "../util/splitCalc";
-import PhoneInput from "react-phone-number-input";
 
 const Home: NextPage = () => {
   const [click, setClick] = useState(false);
@@ -31,12 +30,11 @@ const Home: NextPage = () => {
       return;
     }
     const x = await generateQR(address, "1e16");
-    if (x)
-      setUri(x.qr);
+    if (x) setUri(x.qr);
   };
 
   const sendSMS = async () => {
-     await axios.post("api/sendSMS", {
+    await axios.post("api/sendSMS", {
       address: address,
       to: "4699316958", //"5105856168", // Brandon: 4699316958
       amount: "1e16",
@@ -70,10 +68,10 @@ const Home: NextPage = () => {
         },
         {
           name: "e",
-          email: "brandonbigbrother@gmail.com"
+          email: "brandonbigbrother@gmail.com",
         },
       ],
-    })
+    });
   };
 
   let [isOpen, setIsOpen] = useState(false);
