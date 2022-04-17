@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Head from "next/head";
 import Image from "next/image";
 import Navbar from "../components/Navbar";
-import { testRPC, oxSwap } from "../util/ankr";
+import { testRPC, oxSwap } from "../util/rpc";
 import { generateQR } from "../util/qr";
 import axios from "axios";
 import {
@@ -17,6 +17,7 @@ const Home: NextPage = () => {
   const [click, setClick] = useState(false);
   const [uri, setUri] = useState("");
   const address = useAddress();
+
   const handleClick = async () => {
     setClick(!click);
     const x = await generateQR(address, "1e16");
