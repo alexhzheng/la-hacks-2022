@@ -25,38 +25,49 @@ const Navbar = () => {
   return (
     <nav className="h-20 shadow-lg flex bg-stone-200 items-center justify-between max-w-full px-2 md:px-24 fixed w-full">
       <div className="flex flex-row gap-x-7">
-        <h1 className="text-4xl font-barlow font-medium tracking-wide  ">
+        <h1 className=" ">
           <button
             onClick={() => {
               router.push("/");
             }}
           >
-            <a className="uppercase">Splitty</a>
+            <a className=" text-5xl font-barlow tracking-widest uppercase">
+              Splitty
+            </a>
           </button>
         </h1>
       </div>
       <NavbarSmall />
       <div className="maxsm:hidden">
         {address ? (
-          <div className="flex flex-col items-end">
-            <div
-              className="flex items-center gap-x-2 cursor-pointer"
-              onClick={() => {
-                navigator.clipboard.writeText(address);
-                toast.success("Copied to clipboard!");
-              }}
-            >
-              <p>
-                address: {address.substr(0, 6)}...{address.substr(-3)}
-              </p>
-              <FaCopy className="text-black" />
-            </div>
+          <div className="flex flex-row gap-x-6">
             <button
-              onClick={disconnectWallet}
-              className="cursor-pointer bg-red-400 px-8 py-2 rounded-3xl hover:scale-95 transition duration-150 ease-in-out"
+              className=" cursor-pointer font-barlow text-xl "
+              onClick={() => router.push("/history/")}
             >
-              Disconnect Wallet
+              History
             </button>
+            <div className="flex flex-col items-end">
+              <div
+                className="flex items-center gap-x-2 cursor-pointer"
+                onClick={() => {
+                  navigator.clipboard.writeText(address);
+
+                  toast.success("Copied to clipboard!");
+                }}
+              >
+                <p>
+                  address: {address.substr(0, 6)}...{address.substr(-3)}
+                </p>
+                <FaCopy className="text-black" />
+              </div>
+              <button
+                onClick={disconnectWallet}
+                className="cursor-pointer bg-red-400 px-8 py-2 rounded-3xl hover:scale-95 transition duration-150 ease-in-out"
+              >
+                Disconnect Wallet
+              </button>
+            </div>
           </div>
         ) : (
           <div className="flex flex-row gap-x-4 font-barlow text-xl">
