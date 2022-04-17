@@ -1,17 +1,24 @@
 import type { NextPage } from "next";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Head from "next/head";
 import Image from "next/image";
 import Navbar from "../components/Navbar";
 import { testRPC, oxSwap } from "../util/ankr";
 import { generateQR } from "../util/qr";
-import { useState } from "react";
+import {
+  useAddress,
+  useDisconnect,
+  useMetamask,
+  useWalletConnect,
+  useCoinbaseWallet,
+} from "@thirdweb-dev/react";
 const Home: NextPage = () => {
   const [click, setClick] = useState(false);
   const [uri, setUri] = useState("");
+  const address = useAddress();
   const handleClick = async () => {
     setClick(!click);
-    const x = generateQR("WALLET_ADDRESS", "1e16").then((data) => setUri(data));
+    const x = generateQR(address, "1e16").then((data) => setUri(data));
     console.log(uri);
   };
   const [Clicked, setClicked] = useState(true);
@@ -23,6 +30,7 @@ const Home: NextPage = () => {
   function openModal() {
     setClicked(true);
   }
+
   return (
     <div className="">
       <div className="z-50 bg-stone-100 fixed w-full">
@@ -40,30 +48,28 @@ const Home: NextPage = () => {
             We help automate calculate bill splitting for the crypto
             enthuistatis!
           </h3>
-          <div className="flex gap-x-4 justify-center items-center">
-            <button
-              className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-4 py-2 rounded-full hover:scale-95 transition duration-150 ease-in-out"
-              type="button"
-            >
-              Get Started Now
-            </button>
-            <button
-              className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-4 py-2 rounded-full hover:scale-95 transition duration-150 ease-in-out"
-              type="button"
-              onClick={() => {
-                handleClick();
-              }}
-            >
-              Test Ethers
-            </button>
+          <div className="flex flex-col gap-x-4 justify-center items-center">
+            <div className="flex gap-x-4">
+              <button
+                className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-4 py-2 rounded-full hover:scale-95 transition duration-150 ease-in-out"
+                type="button"
+              >
+                Get Started Now
+              </button>
+              <button
+                className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-4 py-2 rounded-full hover:scale-95 transition duration-150 ease-in-out"
+                type="button"
+                onClick={() => {
+                  handleClick();
+                }}
+              >
+                Test Ethers
+              </button>
+            </div>
+
             {click && uri !== "" && (
-              <div className="h-32 w-32">
-                <Image
-                  src={uri}
-                  layout="fill"
-                  objectFit="contain"
-                  alt="qrcode"
-                />
+              <div className="h-64 w-64 relative">
+                <Image src={uri} layout="fill" alt="qrcode" />
               </div>
             )}
           </div>
