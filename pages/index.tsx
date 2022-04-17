@@ -85,13 +85,13 @@ const Home: NextPage = () => {
   const handleAddClick = () => {
     setInputList([...inputList, { phoneNumber: "", ratio: 0 }]);
   };
-  const handleInputChange = (e, index) => {
+  const handleInputChange = (e: any, index: any) => {
     const { name, value } = e.target;
-    const list = [...inputList];
+    const list: any = [...inputList];
     list[index][name] = value;
     setInputList(list);
   };
-  const handleRemoveClick = (index) => {
+  const handleRemoveClick = (index: any) => {
     const list = [...inputList];
     list.splice(index, 1);
     setInputList(list);
@@ -149,7 +149,12 @@ const Home: NextPage = () => {
             </button>
             {click && uri !== "" && (
               <div className="h-64 w-64 relative">
-                <img src={uri} alt="qrcode" />
+                <Image
+                  src={uri}
+                  alt="qrcode"
+                  layout="fill"
+                  objectFit="contain"
+                />
               </div>
             )}
           </div>
@@ -252,9 +257,7 @@ const Home: NextPage = () => {
                     return;
                   }
                   let totalPercent = 0;
-                  inputList.map(
-                    (input, x) => (totalPercent += parseInt(input.ratio))
-                  );
+                  inputList.map((input, x) => (totalPercent += input.ratio));
                   console.log(totalPercent);
                   if (totalPercent !== 100) {
                     alert("Percents must add up to 100");
