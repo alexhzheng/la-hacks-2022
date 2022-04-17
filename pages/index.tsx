@@ -224,10 +224,11 @@ const Home: NextPage = () => {
                   }
 
                   const amts = await calcPaymentAmts(total, inputList);
-                  alert(amts);
+                  console.log(amts);
                   const x = JSON.parse(amts);
                   x[0].address = address;
                   x[0].description = description;
+                  console.log("sending sms");
                   sendSMS(x);
                   await addBill(address || "none", x);
                   closeModal();
