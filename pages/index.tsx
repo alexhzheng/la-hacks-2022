@@ -116,7 +116,7 @@ const Home: NextPage = () => {
             Split-A-Bill!
           </h1>
           <h3 className="py-4 text-2xl font-barlow ">
-            We help automate calculate bill splitting for the crypto
+            We help automate calculate bill splitting for crypto
             enthusiasts!
           </h3>
           <div className="flex flex-col gap-x-4 justify-center items-center">
