@@ -20,7 +20,7 @@ async function getEtherscanProvider() {
 }
 
 /**
- * Function to check if 
+ * Function to check if transaction matches
  * @param provider 
  * @param hash 
  * @param senderPhone 
