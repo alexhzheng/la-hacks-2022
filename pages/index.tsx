@@ -80,13 +80,13 @@ const Home: NextPage = () => {
               >
                 Request Payment Now
               </button>
-              <button
+              {/* <button
                 className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-4 py-2 rounded-full hover:scale-95 transition duration-150 ease-in-out"
                 type="button"
                 onClick={() => mint()}
               >
                 Mint
-              </button>
+              </button> */}
             </div>
           </div>
         </div>
