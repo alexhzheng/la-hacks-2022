@@ -1,4 +1,4 @@
-import { generateQR } from "../qr";
+import { generateQR, uploadImage } from "../qr";
 import { getEthPriceInUSD } from "../../util/rpc";
 
 const sendText = async (req: any) => {
@@ -10,6 +10,9 @@ const sendText = async (req: any) => {
   const client = require("twilio")(accountSid, authToken);
   const qrResult = await generateQR(address, amount);
   const usdEquivalent = amount / 1e18 * await getEthPriceInUSD(); // wei / (wei/eth) * (usd/eth)
+  // if (qrResult) {
+  //   uploadImage(qrResult?.qr);
+  // }
 
   await client.messages.create({
     body:  `${address} requests $${usdEquivalent.toFixed(2)}. Pay at ${qrResult?.metamaskURL}`,
