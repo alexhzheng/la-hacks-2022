@@ -14,6 +14,7 @@ import {
   useCoinbaseWallet,
 } from "@thirdweb-dev/react";
 import { IoClose } from "react-icons/io5";
+import Slideshow from "../components/slideshow";
 
 import { Dialog, Transition } from "@headlessui/react";
 import { calcPaymentAmts } from "../util/splitCalc";
@@ -31,12 +32,11 @@ const Home: NextPage = () => {
       return;
     }
     const x = await generateQR(address, "1e16");
-    if (x)
-      setUri(x.qr);
+    if (x) setUri(x.qr);
   };
 
   const sendSMS = async () => {
-     await axios.post("api/sendSMS", {
+    await axios.post("api/sendSMS", {
       address: address,
       to: "4699316958", //"5105856168", // Brandon: 4699316958
       amount: "1e16",
@@ -70,10 +70,10 @@ const Home: NextPage = () => {
         },
         {
           name: "e",
-          email: "brandonbigbrother@gmail.com"
+          email: "brandonbigbrother@gmail.com",
         },
       ],
-    })
+    });
   };
 
   let [isOpen, setIsOpen] = useState(false);
@@ -106,10 +106,10 @@ const Home: NextPage = () => {
 
   return (
     <div className="relative">
-      <div className="z-50 bg-stone-100 fixed w-full ">
+      <div className="z-10 sticky top-0 bg-stone-100  w-full ">
         <Navbar />
       </div>
-      <main className="flex h-full min-h-screen justify-center items-center text-center overflow-hidden relative">
+      <main className="flex flex-col min-h-screen justify-center items-center text-center relative">
         <div className="">
           <h1 className="text-9xl text-center font-bold text-transparent bg-clip-text bg-gradient-to-tr from-sky-600 to-white mb-2">
             Welcome to
@@ -156,7 +156,12 @@ const Home: NextPage = () => {
             )}
           </div>
         </div>
-
+        <div className="mt-12 w-full bg-blue-50 h-full">
+          <div className="font-barlow font-medium tracking-wide text-6xl mb-8">
+            What Do We Do?
+          </div>
+          <Slideshow />
+        </div>
         <Dialog
           as="div"
           className="fixed inset-0 z-50 overflow-y-auto"

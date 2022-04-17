@@ -24,8 +24,7 @@
     "react-dom": "18.0.0",
     "react-icons": "^4.3.1",
     "react-phone-number-input": "^3.1.50",
-    "react-use": "^17.3.2",
-
+    "react-responsive-carousel": "^3.2.23",
     "react-use": "^17.3.2",
     "twilio": "^3.76.1"
   },
