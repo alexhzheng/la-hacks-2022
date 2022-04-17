@@ -5,7 +5,7 @@ import React from "react";
 import step1 from "../public/gifs/step1.gif";
 import step2 from "../public/gifs/step2.gif";
 import step3 from "../public/gifs/step3.gif";
-import Image from "next/Image";
+import Image from "next/image";
 
 const slideshow = () => {
   return (
@@ -15,6 +15,7 @@ const slideshow = () => {
         infiniteLoop={true}
         autoPlay={true}
         showArrows={false}
+        showThumbs={false}
         showIndicators={false}
       >
         <div className="mt-10 flex flex-col justify-center items-center">
