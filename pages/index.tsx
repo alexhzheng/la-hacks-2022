@@ -35,7 +35,8 @@ const Home: NextPage = () => {
   const sendSMS = async () => {
      await axios.post("api/sendSMS", {
       address: address,
-      to: "5105856168", // Brandon: 4699316958
+      to: "4699316958", //"5105856168", // Brandon: 4699316958
+      amount: "1e16",
     });
   };
   const sendEmail = async () => {
