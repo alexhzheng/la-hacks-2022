@@ -7,7 +7,8 @@ import {
   collection,
   getDocs,
   setDoc,
-  addDoc
+  addDoc,
+  arrayUnion
 } from 'firebase/firestore';
 
 const firebaseConfig = {
@@ -40,7 +41,13 @@ const getBills = async (address: string) => {
   return bills;
 }
 
-export { addBill, getBills };
+const addPayment = async (payment: { address: string, hash: string, phoneNumber: string, amount: string }) => {
+  const docRef = await setDoc(doc(firestore, "payments", payment.hash), payment);
+  // console.log("Document written with ID: ", docRef.id);
+}
+
+
+export { addBill, getBills, addPayment };
 // const docRef = doc(firestore, `bills/${address}`);
 //   const docSnap = await getDoc(docRef);
 //   if (docSnap.exists()) {

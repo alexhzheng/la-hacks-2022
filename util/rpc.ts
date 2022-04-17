@@ -31,7 +31,7 @@ async function checkTransaction(provider: JsonRpcProvider, hash: string, senderP
   const transaction = await provider.getTransaction(hash);
   const amount = ethers.utils.formatEther(transaction.value);
   const receiver = transaction.to;
-  const transactionList = await getBills(receiver || "");
+  return {amount, receiver, senderPhone};
   // for (const t of transactionList) {
   //   for (const entry of t) {
   //     if (entry.phone == senderPhone && Math.abs(parseFloat(amount) - entry.amount) < 0.001 && receiver == ent) {

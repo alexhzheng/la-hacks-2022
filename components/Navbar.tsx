@@ -39,13 +39,14 @@ const Navbar = () => {
       </div>
       <NavbarSmall />
       <div className="maxsm:hidden">
+
         {address ? (
           <div className="flex flex-row gap-x-6">
             <button
               className=" cursor-pointer font-barlow text-xl "
               onClick={() => router.push("/history/")}
             >
-              History
+              My Account
             </button>
             <div className="flex flex-col items-end">
               <div
@@ -71,12 +72,6 @@ const Navbar = () => {
           </div>
         ) : (
           <div className="flex flex-row gap-x-4 font-barlow text-xl">
-            <button
-              className="flex flex-row justify-center items-center gap-x-2 cursor-pointer "
-              onClick={() => router.push("/history/")}
-            >
-              History
-            </button>
             <button
               className="flex flex-row justify-center items-center gap-x-2 cursor-pointer bg-sky-400 px-4 py-2 rounded-3xl hover:scale-95 transition duration-150 ease-in-out"
               type="button"

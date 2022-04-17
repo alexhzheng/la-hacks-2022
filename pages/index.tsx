@@ -72,7 +72,7 @@ const Home: NextPage = () => {
             Splitty
           </h1>
           <h3 className="px-4 py-4  text-3xl md:text-4xl font-barlow ">
-            We help automate bill splitting for crypto enthusiasts!
+            The fastest way to split and pay bills with your friends using crypto!
           </h3>
           <div className="flex flex-col gap-x-4 justify-center items-center">
             <div className="flex gap-x-4">
