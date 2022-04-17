@@ -66,7 +66,7 @@ const Home: NextPage = () => {
             Welcome to
           </h1>
           <h1 className="text-5xl md:text-7xl text-center font-bold text-transparent bg-clip-text bg-gradient-to-tr from-sky-600 to-white">
-            Split-A-Bill!
+            Splitty
           </h1>
           <h3 className="px-4 py-4 text-2xl font-barlow ">
             We help automate calculate bill splitting for crypto enthusiasts!

@@ -27,7 +27,7 @@ const Navbar = () => {
               router.push("/");
             }}
           >
-            Split-A-Bill
+            Splitty
           </button>
         </h1>
         <button
