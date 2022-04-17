@@ -12,11 +12,9 @@ const sendText = async (req: any) => {
     const link = await generateQR(sender.address, amount.toString());
 
     await client.messages.create({
-      body: `${sender.address} requests $${payer.usdAmount.toFixed(2)}for ${
-        sender.description
-      }. Pay at ${
-        link?.metamaskURL
-      }. When you're done, reply with the transaction hash (found on Etherscan).`,
+      body: `${sender.address} requests $${payer.usdAmount.toFixed(2)} for ${sender.description
+        }. Pay at ${link?.metamaskURL
+        }. When you're done, reply with the transaction hash (found on Etherscan).`,
       from: "9034146426",
       to: payer.phoneNumber,
     });
@@ -41,4 +39,16 @@ const sendText = async (req: any) => {
   // });
 };
 
-export default sendText;
+const sendConfirmationText = async (recipient: string) => {
+  const accountSid = "ACa5ceefdcc9a786513fde8a91e243f44c";
+  const authToken = "ea28bd97067cfbbf22d0737590a090e2";
+  const client = require("twilio")(accountSid, authToken);
+
+  await client.messages.create({
+    body: `Your transaction is being confirmed!`,
+    from: "9034146426",
+    to: recipient,
+  });
+};
+
+export {sendConfirmationText, sendText as sendSMS};

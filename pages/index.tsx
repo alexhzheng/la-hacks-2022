@@ -19,6 +19,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { calcPaymentAmts } from "../util/splitCalc";
 import { mint } from "../util/nft/mint";
 import Slideshow from "../components/Slideshow";
+import { addBill } from "../util/firebase";
 
 const Home: NextPage = () => {
   const address = useAddress();

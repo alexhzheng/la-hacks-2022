@@ -1,6 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
-import sendSMS from "../../util/twilio/sms";
+import { sendSMS } from "../../util/twilio/sms";
 
 type Data = {
   name: string;

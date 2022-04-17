@@ -2,6 +2,7 @@ import { JsonRpcProvider } from "@ethersproject/providers";
 import { ThirdwebSDK } from "@thirdweb-dev/sdk";
 import { ethers, utils } from "ethers";
 import qs from 'qs';
+import { getBills } from "./firebase";
 
 const rpcUrl = "https://rpc.ankr.com/eth_rinkeby";
 const testWallet = "0x86283791B4e9BF64AA71b921A302559b48911c61";
@@ -30,15 +31,15 @@ async function checkTransaction(provider: JsonRpcProvider, hash: string, senderP
   const transaction = await provider.getTransaction(hash);
   const amount = ethers.utils.formatEther(transaction.value);
   const receiver = transaction.to;
-  const transactionList = JSON.parse(localStorage.getItem("transactionList") || "[]");
-  for (const t of transactionList) {
-    for (const entry of t) {
-      if (entry.phone == senderPhone && Math.abs(parseFloat(amount) - entry.amount) < 0.001 && receiver == ent) {
-        return true;
-      }
-    }
-    return false;
-  }
+  const transactionList = await getBills(receiver || "");
+  // for (const t of transactionList) {
+  //   for (const entry of t) {
+  //     if (entry.phone == senderPhone && Math.abs(parseFloat(amount) - entry.amount) < 0.001 && receiver == ent) {
+  //       return true;
+  //     }
+  //   }
+  //   return false;
+  // }
 }
 
 /**
